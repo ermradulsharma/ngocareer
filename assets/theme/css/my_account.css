@@ -1,0 +1,82 @@
+.profile-account {
+    background-color: #f1f1f2;
+    padding-top: 0px;
+}
+.account-bar{
+    background-color: #4d7092;
+    margin-bottom: 30px;
+    height: 33px;
+}
+.account-bar li {
+    display: inline-block;
+    padding-right: 5px;
+    font-size: 9pt;
+}
+.account-bar li.logout {
+    background-color: #593a44;
+}
+.account-bar li.active a {
+    background: #1978E6 !important;
+    color: #fff;
+}
+.myaccounttitle span.pull-right {
+    font-size: 14px;
+    padding-top: 20px;
+}
+.account-bar li a {
+    color: #fff;
+    padding: 7px 10px;
+    display: block;
+    text-decoration: none;
+    position: relative;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.unsubscribe_area {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.subscriptionbox .buynowsidebar {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+.myaccounttitle p {
+    color: #33312f;
+    font-size: 25px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.profile-account .card-header {
+    background-color: #f9f5ef;
+}
+.account-bar li a:hover,.account-bar li.active a {
+    background-color: #1978E6;
+
+}
+.account-bar li a:hover::before, .account-bar li.active a::before {
+    content: "";
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    top: 32px;
+    left: 36%;
+    z-index: 99;
+    border-top: 10px solid #1978E6;
+}
+
+
+.student-portal{
+    margin-bottom: 50px;
+    clear: both;
+}
+.change-password h3 {
+    border-bottom: 1px solid #4d7092;
+    padding-bottom: 9px;
+    display: inline-block;
+    padding-right: 100px;
+    margin-bottom: 30px;
+}

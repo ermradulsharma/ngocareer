@@ -1,0 +1,99 @@
+<div class="footer hide_on_print">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h3>More information</h3>
+                    <?php echo getFooterMenu(14, 'menu'); ?>
+                </div>
+                <div class="col-sm-3">
+                    <h3>Legal Information</h3>
+                    <ul class="menu">
+                        <?php echo getFooterMenu(15, 'menu'); ?>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>Subscribe to our newsletter</h3>
+                    <p>Join our subscribers list to get the latest news, updates and special offers delivered directly in your inbox.</p>
+                    <form name="newsletter" id="newsletter" action="">
+                        <input type="email" name="newsletter_email" id="newsletter_email" class="form-control" placeholder="Email Address" required="required">
+                        <div id="newsletter-msg"></div>
+                        <input onclick="newsletterSubscribe()" type="button" class="btn btn-primary" value="Subscribe">
+                        
+                    </form>
+                    
+                    <p style="padding-top: 15px;font-weight: bold;">
+                        Follow us on &nbsp;&nbsp; 
+                        <a href="https://www.facebook.com/ngocareer/" target="_blank">
+                            <i class="fa fa-facebook-square fa-2x"></i>                            
+                        </a>
+                        <a href="https://twitter.com/ngocareer/" target="_blank">
+                            <i class="fa fa-twitter-square fa-2x"></i>                            
+                        </a>                        
+                    </p>                    
+                </div>
+                <div class="col-sm-3">
+                    <h3>Contact Us</h3>
+                    <P>NGO Career is  operated and own by Qualified Place Limited.</p>
+                    <p>Registered Company Number: 10617882. <br>ICO  Ref: ZA612655. </P>
+                    <p>Registered Address: 1st Floor, 54-56 The Market Square, London, N9 0TZ. </p> 
+                    <p>Tel: <a href="tel:03001237594">030 0123 7594</a><br>
+                        Email : <a href="mailto:info@ngocareer.com">info@ngocareer.com</a></p>
+                    <?php // echo viewSocialLinksImg(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container text-center">
+            <center>
+                &copy;
+                <?php echo date('Y') . ' ' . getSettingItem('SiteTitle') ?>. All Rights Reserved.
+            </center>                    
+        </div>
+    </div>
+</div>
+<script src="assets/theme/js/scripts.js"></script>
+<script src="assets/lib/common.js"></script>
+<script src="assets/lib/toast/toastr.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // toast
+        toastr.clear();
+
+        <?php if ($this->session->flashdata('msgs')) { ?>
+        toastr.success("<?php echo $this->session->flashdata('msgs'); ?>");
+        <?php } ?>
+
+        <?php if ($this->session->flashdata('msge')) { ?>
+        toastr.error("<?php echo $this->session->flashdata('msge'); ?>");
+        <?php } ?>
+
+        <?php if ($this->session->flashdata('msgw')) { ?>
+        toastr.warning("<?php echo $this->session->flashdata('msgw'); ?>");
+        <?php } ?>
+
+        <?php if ($this->session->flashdata('msgi')) { ?>
+        toastr.info("<?php echo $this->session->flashdata('msgi'); ?>");
+        <?php } ?>
+        
+        
+        
+        
+    });
+    
+    <?php $candidate_id = getLoginCandidatetData('id');?>
+    
+//    $(document).on('click','.jobalert',function(e) {
+//        <?php if($candidate_id){?>
+//                location.href = "myaccount/alert";
+//        <?php }else{?>
+//            toastr.error("Please login first!");
+//            return false;
+//        <?php }?>        
+//    });
+</script>
+
+<?php echo cookie(); ?>
+</body>
+</html>

@@ -1,0 +1,59 @@
+
+.ajax_error, 
+.ajax_success,
+.ajax_processing,
+.ajax_notice {
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 10pt;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.ajax_success {  
+    background: url('icons/accept.png') no-repeat scroll 10px center #F1FFE5;
+    padding: 5px 10px 5px 40px;   
+    border: 1px dotted #84CF32;
+    color: #40A000;    
+}
+
+.ajax_error {
+    background: url('icons/cancel.png') no-repeat scroll 10px center #FFFFC5;
+    border: 1px dotted #FF0000;
+    padding: 5px 10px 5px 40px;
+    color: #FF0000;
+}
+
+.ajax_processing {
+    background-color: #e6e693;
+    color: #484848;    
+    padding-left: 65px;
+    background-image: url('icons/loader.gif');
+    background-repeat: no-repeat;
+    background-position: 15px 10px;           
+}
+
+.ajax_notice {
+    background-color: #e6e693;
+    color: #484848;
+    padding-left: 35px;
+    background-image: url(icons/bell.png);
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    line-height: 2; 
+}
+
+.required {
+    border: 1px solid red !important;
+    background-color: #FFFFC5;
+}
+.required_pass {
+    border: 1px solid green;
+    background-color: #F1FFE5;
+}
+
+#ajaxContentLoader {
+    display: none;
+}

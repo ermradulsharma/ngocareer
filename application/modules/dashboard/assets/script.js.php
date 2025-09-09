@@ -1,0 +1,1 @@
+<script type="text/javascript">$(function () {                $('table.highchart').highchartTable();        $('table.highchart-log').highchartTable();        $('table.highchart-income').highchartTable();});           </script>
