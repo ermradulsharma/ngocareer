@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 date_default_timezone_set('Europe/London');
 //error_reporting(0);
-$config['base_url']       = 'https://www.ngocareer.com/';
+$config['base_url']       = 'http://localhost/ngocareer//';
 //$config['base_url']       = 'http://192.168.1.104/ngocareer/';
 
 $config['index_page']           = '';

@@ -49,7 +49,7 @@ class Cron extends MX_Controller
         // create a new cURL resource
         $ch = curl_init();
         // set URL and other appropriate options
-        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/ping?sitemap=https://www.ngocareer.com/sitemap.xml");
+        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/ping?sitemap=http://localhost/ngocareer//sitemap.xml");
         curl_setopt($ch, CURLOPT_HEADER, 0);
         // grab URL and pass it to the browser
         curl_exec($ch);
@@ -61,7 +61,7 @@ class Cron extends MX_Controller
         // create a new cURL resource
         $ch = curl_init();
         // set URL and other appropriate options
-        curl_setopt($ch, CURLOPT_URL, "https://www.ngocareer.com/sitemap?key=RmxpY2sgTWVkaWE=");
+        curl_setopt($ch, CURLOPT_URL, "http://localhost/ngocareer//sitemap?key=RmxpY2sgTWVkaWE=");
         curl_setopt($ch, CURLOPT_HEADER, 0);
         // grab URL and pass it to the browser
         curl_exec($ch);

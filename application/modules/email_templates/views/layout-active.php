@@ -1,7 +1,7 @@
 <div style="background-color: #F9F9F9; padding: 50px 0;">
 <div style="width: 90%; border: 1px solid #EEE; background: #fff; margin: 0 auto;">
 <div style="background-color: #fefefe;height:105px;padding:15px;border-bottom: 4px solid #1f8c49;">
-<div style="float:left"><img src="https://www.ngocareer.com/assets/theme/images/logo.png" /></div>
+<div style="float:left"><img src="http://localhost/ngocareer//assets/theme/images/logo.png" /></div>
 
 <div style="float:right;text-align:right;color: #060709;font-size: 19pt;">Phone: 030 0123 7594<br />
 Email: contact@ngocareer.com</div>

@@ -26,8 +26,8 @@ $config['client_secret']    = 'R_FRdDf6BqAcnuVcEPNVgLHb';
 //$config['redirect_uri']     = 'http://localhost/ngocareer/auth/google/callback';
 //$config['employer_redirect_uri']     = 'http://localhost/ngocareer/admin/auth/google/callback';
 
-$config['redirect_uri']             = 'https://www.ngocareer.com/auth/google/callback';
-$config['employer_redirect_uri']    = 'https://www.ngocareer.com/admin/auth/google/callback';
+$config['redirect_uri']             = 'http://localhost/ngocareer//auth/google/callback';
+$config['employer_redirect_uri']    = 'http://localhost/ngocareer//admin/auth/google/callback';
 
 $config['application_name'] = 'NGO_Career';
 $config['api_key']          = '';

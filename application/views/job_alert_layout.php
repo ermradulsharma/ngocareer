@@ -64,10 +64,10 @@
         <table class="footer" width="100%" cellspacing="0" cellpadding="0" style="background-color: #222E39;color: #FFFFFF;text-align: center;padding: 30px; font-size: 15px;font-size: 15px;">
             <tr>
                 <td>
-                    <p><a style="color: #F74E05; font-weight: 700;" href="https://www.ngocareer.com/job-alert" target="_blank">Update</a> your Job Alert to  get informed about the  job  vacancies that match your criteria.<br>
+                    <p><a style="color: #F74E05; font-weight: 700;" href="http://localhost/ngocareer//job-alert" target="_blank">Update</a> your Job Alert to  get informed about the  job  vacancies that match your criteria.<br>
 <!--                        <a style="color: #F74E05; font-size: 15px; text-decoration: none; font-weight: 700;" href="--><?php //echo $unsubscribe_url; ?><!--" target="_blank">Unsubscribe</a> from emails<br>-->
-                        <a style="color: #F74E05; font-weight: 700;" href="https://www.ngocareer.com/contact" target="_blank">Contact us</a></p>
-                    <p>This email was sent to  <?php echo $subscriber_email; ?> as you agreed to receive relevant jobs from <a style="color: #F74E05; font-weight: 700;" href="https://www.ngocareer.com" target="_blank">https://www.ngocareer.com</a> .  <a style="color: #F74E05; font-weight: 700;" href="https://www.ngocareer.com/privacy-policy" target="_blank">Privacy Policy</a> | <a style="color: #F74E05; font-weight: 700;" href="https://www.ngocareer.com/terms-and-conditions" target="_blank">Terms & Conditions</a></p>
+                        <a style="color: #F74E05; font-weight: 700;" href="http://localhost/ngocareer//contact" target="_blank">Contact us</a></p>
+                    <p>This email was sent to  <?php echo $subscriber_email; ?> as you agreed to receive relevant jobs from <a style="color: #F74E05; font-weight: 700;" href="http://localhost/ngocareer/" target="_blank">http://localhost/ngocareer/</a> .  <a style="color: #F74E05; font-weight: 700;" href="http://localhost/ngocareer//privacy-policy" target="_blank">Privacy Policy</a> | <a style="color: #F74E05; font-weight: 700;" href="http://localhost/ngocareer//terms-and-conditions" target="_blank">Terms & Conditions</a></p>
                     <p>NGO CAREER by Qualified Place Limited, Suite 1, 3rd floor, St George Chambers, South Mall, London, N9 0TS.  Registered in England & Wales under company number <strong>10617882</strong></p>
 
                 </td>

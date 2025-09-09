@@ -1,8 +1,19 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
 
-RewriteEngine On
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
+    # If project is in http://localhost/ngocareer/
+    RewriteBase /ngocareer/
+
+    # Pass authorization header
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Protect index.php
+    RewriteRule ^index\.php$ - [L]
+
+    # If file or directory does not exist
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Redirect everything to index.php
+    RewriteRule . /ngocareer/index.php [L]
+</IfModule>

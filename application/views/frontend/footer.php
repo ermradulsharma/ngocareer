@@ -3,17 +3,17 @@
         <h2 class="text-center">Quick Links</h2>
 <!--        <a href="about-us">About Us</a>-->
         <a href="post-an-ngo-event">Post an Event</a>
-        <!--<a href="https://www.ngocareer.com/job-search">Job Search</a> -->                  
-        <!-- <a href="https://www.ngocareer.com/employers-recruiters">Employers</a> -->
-        <a href="https://www.ngocareer.com/employers-recruiters">Employers and Recruiters</a>
-        <!--<a href="https://www.ngocareer.com/advertisers">Recruiters</a>-->
-        <a href="https://www.ngocareer.com/job-seekers">Job Seekers</a><br>
-        <a href="https://www.ngocareer.com/events">Search for NGO Events</a>
-        <a href="https://www.ngocareer.com/ngo-career-advice">NGO Career Advice</a>
-        <a href="https://www.ngocareer.com/your-guide-to-ngo-jobs">Your Guide to NGO Jobs</a>
-        <a href="https://www.ngocareer.com/ngo-job-profiles">NGO Job Profiles</a><br>
-        <a href="https://www.ngocareer.com/your-guide-to-international-development-jobs">International Development Jobs</a>
-        <a href="https://www.ngocareer.com/understanding-the-ngo-sector">Understanding the NGO Sector</a>
+        <!--<a href="http://localhost/ngocareer//job-search">Job Search</a> -->                  
+        <!-- <a href="http://localhost/ngocareer//employers-recruiters">Employers</a> -->
+        <a href="http://localhost/ngocareer//employers-recruiters">Employers and Recruiters</a>
+        <!--<a href="http://localhost/ngocareer//advertisers">Recruiters</a>-->
+        <a href="http://localhost/ngocareer//job-seekers">Job Seekers</a><br>
+        <a href="http://localhost/ngocareer//events">Search for NGO Events</a>
+        <a href="http://localhost/ngocareer//ngo-career-advice">NGO Career Advice</a>
+        <a href="http://localhost/ngocareer//your-guide-to-ngo-jobs">Your Guide to NGO Jobs</a>
+        <a href="http://localhost/ngocareer//ngo-job-profiles">NGO Job Profiles</a><br>
+        <a href="http://localhost/ngocareer//your-guide-to-international-development-jobs">International Development Jobs</a>
+        <a href="http://localhost/ngocareer//understanding-the-ngo-sector">Understanding the NGO Sector</a>
     </div>
 </div>
 <!-- <div class="footer-manu" style="padding-top: 0;">
@@ -78,7 +78,7 @@
                     <p>Tel: <a href="tel:03001237594">030 0123 7594</a></p>-->
                     <P class="emailpra"> NGO Career by Qualified Place Limited.<br>
                     (The Market Square, London, N9 0TZ.)</P>
-                    <p>Email : <a href="mailto:contact@ngocareer.com">contact@ngocareer.com</a> or  <a href= "https://www.ngocareer.com/contact">Contact Us  Online </a></p>
+                    <p>Email : <a href="mailto:contact@ngocareer.com">contact@ngocareer.com</a> or  <a href= "http://localhost/ngocareer//contact">Contact Us  Online </a></p>
                         
                         
                         <h3></h3>
