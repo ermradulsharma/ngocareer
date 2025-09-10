@@ -2,26 +2,29 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Frontend_controller extends MX_Controller {
+class Frontend_controller extends MX_Controller
+{
 
     public $user_id;
     public $role_id;
     public $candidate_id;
 
-    public function __construct() {
-        parent::__construct();        
+    public function __construct()
+    {
+        parent::__construct();
 
         $this->user_id = (int) getLoginUserData('user_id');
         $this->role_id = (int) getLoginUserData('role_id');
         $this->candidate_id = (int) getLoginCandidatetData('id');
     }
 
-    public function index() {
+    public function index()
+    {
         $PageSlug   = empty($this->uri->segment(1)) ? 'home' : $this->uri->segment(1);
 
         $cms        = $this->db->get_where('cms', ['post_url' => $PageSlug])->row_array();
-        
-//        dd( $cms );
+
+        //        dd( $cms );
         $post_type  = $cms['post_type'];
         $categorySlug = $this->uri->segment(2);
         if ($PageSlug === 'blog' && !empty($categorySlug)) {
@@ -68,11 +71,13 @@ class Frontend_controller extends MX_Controller {
         $this->viewFrontContent('frontend/category/blog-single', $data);
     }
 
-    public function login(){
+    public function login()
+    {
         $this->viewFrontContent('frontend/login');
     }
 
-    private function getCategoryPage($categorySlug = '') {
+    private function getCategoryPage($categorySlug = '')
+    {
         $category = $this->db->get_where('cms_options', ['url' => $categorySlug, 'type' => 'category'])->row();
         $archive = $this->input->get('archive');
         $PageSlug = 'category/default';
@@ -87,7 +92,7 @@ class Frontend_controller extends MX_Controller {
             $this->db->limit($limit, $start);
             $this->db->order_by('id', 'DESC');
             $post_data = $this->db->get_where('cms', ['post_type' => 'post', 'parent_id' => $category->id, 'status' => 'Publish'])->result();
-//            pp($post_data);
+            //            pp($post_data);
             if ($category->template) {
                 $PageSlug = substr($category->template, 0, -4);
             }
@@ -156,67 +161,72 @@ class Frontend_controller extends MX_Controller {
         return $this->db->get('cms_options')->result();
     }
 
-    private function getCmsPage($cms, $PageSlug = '') {
+    private function getCmsPage($cms, $PageSlug = '')
+    {
         if ($cms['template']) {
             $PageSlug = substr($cms['template'], 0, -4);
         }
 
         $viewTeamplatePath = APPPATH . '/views/frontend/template/' . $PageSlug . '.php';
-        $viewPath = (file_exists($viewTeamplatePath)) ? ('template/' . $PageSlug ) : 'template/page';
+        $viewPath = (file_exists($viewTeamplatePath)) ? ('template/' . $PageSlug) : 'template/page';
 
         $data = [
             'id' => $cms['id'],
             'title' => $cms['post_title'],
             'content' => $cms['content'],
             'meta_title' => $cms['seo_title'],
-            'meta_description' => getShortContent($cms ['seo_description'], 120),
+            'meta_description' => getShortContent($cms['seo_description'], 120),
             'meta_keywords' => $cms['seo_keyword'],
             'parent_id' => $cms['parent_id'],
             'thumb' => $cms['thumb'],
-            'edit_url' => site_url(Backend_URL.'cms/update/'.$cms['id'])
+            'edit_url' => site_url(Backend_URL . 'cms/update/' . $cms['id'])
         ];
 
         $this->viewFrontContent('frontend/' . $viewPath, $data);
     }
-   
-    public function viewFrontContent($view, $data = []) {
-        $GLOBALS    = $this->getAllSetting();        
-        
-//        dd( $GLOBALS );
+
+    public function viewFrontContent($view, $data = [])
+    {
+        $GLOBALS    = $this->getAllSetting();
+
+        //        dd( $GLOBALS );
         $this->load->view('frontend/header', $data);
         $this->load->view($view, $data);
         $this->load->view('frontend/footer');
     }
 
-    private function getAllSetting(){
+    private function getAllSetting()
+    {
         $this->db->select('category,label,value');
         $settings = $this->db->get('settings')->result();
         $return = [];
-        foreach($settings as $setting ){
+        foreach ($settings as $setting) {
             $return[$setting->category][$setting->label] = $setting->value;
-        }       
-        $return['canonical'] = site_url( $this->getPageUrl() );
+        }
+        $return['canonical'] = site_url($this->getPageUrl());
         return $return;
     }
-    
-    private function getPageUrl(){
-        $controller     = $this->router->fetch_class() ;        
-        $method         = $this->router->fetch_method();                
+
+    private function getPageUrl()
+    {
+        $controller     = $this->router->fetch_class();
+        $method         = $this->router->fetch_method();
         $route          = "{$controller}/{$method}";
         $arr            = $this->router->routes;
-        $match          = array_search ($route, $arr);  
-        if($match){
+        $match          = array_search($route, $arr);
+        if ($match) {
             return $match;
         } else {
             return $this->uri->segment(1);
-        }        
+        }
     }
-    
-    protected function viewCandidateArea($view, $data = []) {
-        
+
+    protected function viewCandidateArea($view, $data = [])
+    {
+
         $active_tab = $this->input->get('tab');
 
-        $this->load->view('frontend/header', $data);        
+        $this->load->view('frontend/header', $data);
         $this->load->view('frontend/candidate/sidebar', ['active' => $active_tab]);
         $this->load->view("frontend/candidate/{$view}", $data);
         $this->load->view('frontend/candidate/after');

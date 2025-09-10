@@ -1,13 +1,16 @@
 <?php
 
-class Ajax extends Frontend_controller {
-    function __construct() {
+class Ajax extends Frontend_controller
+{
+    function __construct()
+    {
         parent::__construct();
         ajaxAuthorized();
     }
 
-    public function send_a_enquiry() {
-        $user_id    = (int) getLoginUserData('user_id');  
+    public function send_a_enquiry()
+    {
+        $user_id    = (int) getLoginUserData('user_id');
         $data = [
             'user_id'   => $user_id,
             'send_to'   => $this->input->post('send_to'),
@@ -17,12 +20,13 @@ class Ajax extends Frontend_controller {
             'subject'   => $this->input->post('subject'),
             'message'   => $this->input->post('message'),
         ];
-        echo Modules::run('mail/send_enquiry', $data);                
+        echo Modules::run('mail/send_enquiry', $data);
     }
-    
-    public function send_to_friend() {
-        $user_id    = (int) getLoginUserData('user_id'); 
-             
+
+    public function send_to_friend()
+    {
+        $user_id    = (int) getLoginUserData('user_id');
+
         $data = [
             'user_id'   => $user_id,
             'invitee_email'   => $this->input->post('invitee_email'),
@@ -30,56 +34,60 @@ class Ajax extends Frontend_controller {
             'sender_email'     => $this->input->post('sender_email'),
             'sender_name'   => $this->input->post('sender_name'),
             'url'   => $this->input->post('url')
-        ];                      
-        echo Modules::run('mail/send_to_friend', $data);                
+        ];
+        echo Modules::run('mail/send_to_friend', $data);
     }
-        
-    public  function get_user_reviews(){
+
+    public  function get_user_reviews()
+    {
         $user_id = $this->input->post('user_id');
         $start = $this->input->post('start');
         $limit = 3;
         $next_start = $start + $limit;
-        
+
         $this->db->where('user_id', $user_id);
         $this->db->where('status', 'Publish');
         $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $start);
         $reviews = $this->db->get('reviews')->result();
-                       
-        $html = '';        
-        foreach($reviews as $review){ 
-           $html .= $this->review_html($review);  
+
+        $html = '';
+        foreach ($reviews as $review) {
+            $html .= $this->review_html($review);
         }
-        
-        
-        $response = [            
+
+
+        $response = [
             'reviews' => $html,
             'status' => 'OK',
         ];
-        if($reviews){ 
-            $response['button'] = "onclick=load_more($user_id, $next_start)";             
-        } 
-        if(empty($reviews)){ unset($response['button']); }
+        if ($reviews) {
+            $response['button'] = "onclick=load_more($user_id, $next_start)";
+        }
+        if (empty($reviews)) {
+            unset($response['button']);
+        }
         echo json_encode($response);
     }
-        
-    private function review_html($data = null){
-        
+
+    private function review_html($data = null)
+    {
+
         $html  = '<div class="review-box" >';
         $html .= '<div class="media">';
         $html .= '<div class="media-left revieimage">';
-        $html .= '<img src="'. getPhoto($data->photo).'" />';
+        $html .= '<img src="' . getPhoto($data->photo) . '" />';
         $html .= '</div>';
         $html .= '<div class="media-body">';
-        $html .= '<h4>'.$data->name.'</h4>';
-        $html .= '<p class="time-count">'.time_count($data->created).'</p>';
-        $html .= '<p>'.$data->comment.'</p>';
+        $html .= '<h4>' . $data->name . '</h4>';
+        $html .= '<p class="time-count">' . time_count($data->created) . '</p>';
+        $html .= '<p>' . $data->comment . '</p>';
         $html .= '</div>';
         $html .= '<div class="media-right viewrating">';
-        $html .= '<div id="rateYo_'.$data->id.'" data-rate='.$data->rating.' ></div>';
+        $html .= '<div id="rateYo_' . $data->id . '" data-rate=' . $data->rating . ' ></div>';
         $html .= '</div>';
         $html .= '</div>';
-         $html .= '<script>';
+        $html .= '<script>';
         $html .= '$(\'[id^="rateYo_"]\').each(function(){';
         $html .= 'var rate = $(this).data(\'rate\');';
         $html .= '$(this).rateYo({rating: rate, starWidth: "20px", ratedFill: "#fdb900", readOnly: true}); ';
@@ -88,34 +96,35 @@ class Ajax extends Frontend_controller {
         $html .= '</div>';
         return $html;
     }
-    
-    public function add_review(){
+
+    public function add_review()
+    {
         ajaxAuthorized();
         $name       = $this->input->post('name');
         $comment    = $this->input->post('comment');
         $rating     = (int) $this->input->post('rating');
         $user_id    = (int) $this->input->post('user_id');
-                        
+
         $data = [
             'user_id'   => $user_id, // as listing by user id 
             'name'      => $name,
             'comment'   => nl2br($comment),
             'rating'    => $rating,
             'status'    => 'Pending',
-            'photo'     => $this->photo_upload( $_FILES['photo'] ),
+            'photo'     => $this->photo_upload($_FILES['photo']),
             'created'   => date('Y-m-d H:i:s'),
             'modified'  => '0000-00-00 00:00:00',
         ];
-        $this->db->insert('reviews', $data);        
+        $this->db->insert('reviews', $data);
         Modules::run('mail/mailReview', $data);
         echo ajaxRespond('OK', '<p class="ajax_success">Thank you for submitting your review. Your review will publish after admins approval.</p>');
-            
     }
-        
-    private function photo_upload($FILES) {
+
+    private function photo_upload($FILES)
+    {
         $photo  = '';
         $handle = new \Verot\Upload\Upload($FILES);
-        if ($handle->uploaded) {            
+        if ($handle->uploaded) {
             $handle->file_new_name_body = uniqid('fm_');
             $handle->image_resize   = true;
             $handle->file_force_extension = true;
@@ -123,26 +132,27 @@ class Ajax extends Frontend_controller {
             $handle->image_ratio    = true;
             $handle->image_x        = 150;
             $handle->image_y        = 150;
-            $handle->jpeg_quality   = 100;            
-            $handle->Process('uploads/review/'. date('Y/m/'));
-            $photo = stripslashes($handle->file_dst_pathname);            
-            if ( $handle->processed ) {
+            $handle->jpeg_quality   = 100;
+            $handle->Process('uploads/review/' . date('Y/m/'));
+            $photo = stripslashes($handle->file_dst_pathname);
+            if ($handle->processed) {
                 $handle->clean();
             }
         }
-        return $photo;        
+        return $photo;
     }
-               
-    public function getReviewForm() {
+
+    public function getReviewForm()
+    {
         ajaxAuthorized();
         $id = $this->input->post('user_id');
         $html = '';
-        $html ='<div class="col-sm-12" style="padding-top:5px;">
+        $html = '<div class="col-sm-12" style="padding-top:5px;">
                 <div id="ajax_respond"></div>
             </div>            
             <form id="addReview" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <input name="user_id" value="'.$id.'" type="hidden">
+                    <input name="user_id" value="' . $id . '" type="hidden">
                     <div class="form-group">
                         <label for="name">Your Name <em class="note">Max 25 characters</em></label>
                         <input type="text" required="" maxlength="25" class="form-control" name="name" id="name" placeholder="Enter your name">
@@ -197,8 +207,9 @@ class Ajax extends Frontend_controller {
         ";
         echo $html;
     }
-    
-    public function getEnqueryForm() {
+
+    public function getEnqueryForm()
+    {
         ajaxAuthorized();
         $id = $this->input->post('user_id');
         $html = '';
@@ -207,7 +218,7 @@ class Ajax extends Frontend_controller {
             <form  id="sendForm" method="post" onsubmit="return send_enquiry(event);">
 
                 <div class="modal-body">
-                    <input name="send_to" type="hidden" value="'.$id.'">
+                    <input name="send_to" type="hidden" value="' . $id . '">
                     <div class="form-group">
                         <input type="text" class="form-control"  id="nameX"  name="name"   placeholder="Name">
                     </div>
@@ -236,37 +247,38 @@ class Ajax extends Frontend_controller {
             </form>';
         echo $html;
     }
-                   
-    public  function auto_complete(){
-        
+
+    public  function auto_complete()
+    {
+
         $key = $this->input->post('key');
-                                     
-        $this->db->select('"0" as id, company_name as name');        
-        $this->db->from('users as ps');                
-        $this->db->where('status', 'Active');        
-        $this->db->like('company_name', $key);        
+
+        $this->db->select('"0" as id, company_name as name');
+        $this->db->from('users as ps');
+        $this->db->where('status', 'Active');
+        $this->db->like('company_name', $key);
         $companyies = $this->db->get_compiled_select();
-        
-        $this->db->select('id,name');        
-        $this->db->from('categories');                
-        $this->db->where('status', 'Active');        
-        $this->db->like('name', $key);        
+
+        $this->db->select('id,name');
+        $this->db->from('categories');
+        $this->db->where('status', 'Active');
+        $this->db->like('name', $key);
         $categories = $this->db->get_compiled_select();
-        
-                
+
+
         $result = $this->db->query(
-                    "SELECT id,name FROM ({$companyies}
+            "SELECT id,name FROM ({$companyies}
                     UNION ALL {$categories})
                     as tmp_table limit 15"
-                )->result();                        
-                                              
-        $html = '<div class="dd-list">';        
-        foreach($result as $key){ 
-           $html .= "<div class=\"dd-item\" data-id=\"{$key->id}\">";
-           $html .= strip_tags($key->name);  
-           $html .= '</div>';
-        }    
+        )->result();
+
+        $html = '<div class="dd-list">';
+        foreach ($result as $key) {
+            $html .= "<div class=\"dd-item\" data-id=\"{$key->id}\">";
+            $html .= strip_tags($key->name);
+            $html .= '</div>';
+        }
         $html .= '<div>';
         echo $html;
-    }        
+    }
 }

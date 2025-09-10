@@ -1,15 +1,17 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
  * Author: Iqbal Hossen
  * Date : 2020-02-25
  */
 
-class Auth_candidate extends Frontend_controller {
+class Auth_candidate extends Frontend_controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Candidate_model');
@@ -18,8 +20,9 @@ class Auth_candidate extends Frontend_controller {
         // Load google oauth library 
         $this->load->library('google');
     }
-    
-    public function employer_singup_action() {
+
+    public function employer_singup_action()
+    {
         $email = $this->input->post('email');
         $is_exist = $this->db->get_where('users', ['email' => $email])->num_rows();
 
@@ -42,7 +45,7 @@ class Auth_candidate extends Frontend_controller {
                     'required' => 'You must provide a %s.',
                 ),
             ),
-             array(
+            array(
                 'field' => 'org_type_id',
                 'label' => 'Organization Type',
                 'rules' => 'required',
@@ -69,9 +72,9 @@ class Auth_candidate extends Frontend_controller {
                 'rules' => 'required|matches[password]'
             )
         );
-                
+
         $this->form_validation->set_rules($rules);
-        
+
         //If Invalid Data
         $data['org_type_id'] = $this->input->post('org_type_id');
         $data['loginFormStyle'] = 'style="display:none;"';
@@ -80,23 +83,23 @@ class Auth_candidate extends Frontend_controller {
         // Facebook authentication url 
         $data['fbLoginURL'] = $this->facebook->employer_login_url();
         $data['googleLoginURL'] = $this->google->getLoginUrl();
-        
+
         $captcha = $this->input->post('captcha');
-        $confirm = (int) $this->session->userdata('captcha_val1') + (int) $this->session->userdata('captcha_val2');                
-        
-        
-        if ($captcha != $confirm ) {            
-            $this->session->set_flashdata('message', '<p class="text-danger">Sum Not match please try again.</p>');            
-            $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');           
+        $confirm = (int) $this->session->userdata('captcha_val1') + (int) $this->session->userdata('captcha_val2');
+
+
+        if ($captcha != $confirm) {
+            $this->session->set_flashdata('message', '<p class="text-danger">Sum Not match please try again.</p>');
+            $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
             $this->viewFrontContent('frontend/employer', $data);
             return false;
-        }        
-        
-        if ($this->form_validation->run() == FALSE || ($is_exist)) {            
-            if($is_exist) {
-               $this->session->set_flashdata('message', '<p class="text-danger">This email already has taken!</p>');
+        }
+
+        if ($this->form_validation->run() == FALSE || ($is_exist)) {
+            if ($is_exist) {
+                $this->session->set_flashdata('message', '<p class="text-danger">This email already has taken!</p>');
             }
-            $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');           
+            $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
             $this->viewFrontContent('frontend/employer', $data);
             return false;
         }
@@ -129,10 +132,10 @@ class Auth_candidate extends Frontend_controller {
                 'SiteTitle'         => getSettingItem('SiteTitle'),
                 'receiver_id'       => $lastId,
                 'receiver_email'    => $postData['email'],
-                'full_name'         => $postData['first_name'].' '.$postData['last_name'],
-                'verification'   => "<a target='_blank' href='".site_url('recruiter?verification='.$code)."'>Click here to verify your account</a>"
+                'full_name'         => $postData['first_name'] . ' ' . $postData['last_name'],
+                'verification'   => "<a target='_blank' href='" . site_url('recruiter?verification=' . $code) . "'>Click here to verify your account</a>"
             ]);
-           
+
             $this->session->set_flashdata('msgs', 'Recruiter Registration Has Been Successfully');
             redirect(site_url('recruiter'));
         } else {
@@ -144,16 +147,17 @@ class Auth_candidate extends Frontend_controller {
     }
 
     // This function use for employer login from
-    public function employer($file_name) {
-        $data['meta_title']         = getSettingItem('SiteTitle') .' | Recruiter Log in';
+    public function employer($file_name)
+    {
+        $data['meta_title']         = getSettingItem('SiteTitle') . ' | Recruiter Log in';
         $data['meta_description']   = 'Log in page';
         $data['meta_keywords']      = 'Log in page';
         $user_id = getLoginUserData('user_id');
 
-        if($user_id){
+        if ($user_id) {
             redirect(site_url('admin'));
         }
-        
+
         $data['org_type_id'] = 0;
         // Facebook authentication url
         $data['fbLoginURL'] = $this->facebook->employer_login_url();
@@ -164,14 +168,14 @@ class Auth_candidate extends Frontend_controller {
         $data['resetPassFormStyle'] = 'style="display:none;"';
 
         $verification = $this->input->get('verification');
-        if(isset($verification)){
+        if (isset($verification)) {
             $verification = decode($verification, 'jhgjh^gkjg8KJHG^T*%(^%k');
             $verification = json_decode($verification);
-            if($verification){
+            if ($verification) {
                 $row = $this->db->get_where('users', ['id' => $verification->id, 'email' => $verification->email, 'created_at' => $verification->date])->row();
-                if($row){
-                    if($row->status == 'Waiting'){
-                        $this->db->update('users', ['status'=>'Active'], ['id'=>$verification->id]);
+                if ($row) {
+                    if ($row->status == 'Waiting') {
+                        $this->db->update('users', ['status' => 'Active'], ['id' => $verification->id]);
                         $this->session->set_flashdata('verification', '<p class="ajax_success">Your account verification successfully!</p>');
                     } else {
                         $this->session->set_flashdata('verification', '<p class="ajax_notice">Your account already verified!</p>');
@@ -182,10 +186,11 @@ class Auth_candidate extends Frontend_controller {
             }
         }
 
-        $this->viewFrontContent('frontend/'.$file_name, $data);
+        $this->viewFrontContent('frontend/' . $file_name, $data);
     }
 
-    public function store() {
+    public function store()
+    {
         $email = $this->input->post('email'); // get parent category
         $is_exist = $this->db->get_where('candidates', ['email' => $email, 'oauth_provider' => null])->num_rows();
 
@@ -204,7 +209,7 @@ class Auth_candidate extends Frontend_controller {
                 'field' => 'email',
                 'label' => 'Email Address',
                 'rules' => 'trim|required|valid_email',
-//                'rules' => 'trim|required|valid_email|callback_unique_email',
+                //                'rules' => 'trim|required|valid_email|callback_unique_email',
                 'errors' => array(
                     'required' => 'You must provide a %s.',
                 ),
@@ -230,14 +235,14 @@ class Auth_candidate extends Frontend_controller {
         );
 
         $this->form_validation->set_rules($rules);
-        
+
         if ($this->form_validation->run() == FALSE || ($is_exist)) {
-            
-            if($is_exist) {
-               $this->session->set_flashdata('message', '<p class="ajax_error">This email already has taken!</p>');
+
+            if ($is_exist) {
+                $this->session->set_flashdata('message', '<p class="ajax_error">This email already has taken!</p>');
             }
             $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-            
+
             $data['loginFormStyle'] = 'style="display:none;"';
             $data['singupFormStyle'] = 'style="display:block;"';
             $data['resetPassFormStyle'] = 'style="display:none;"';
@@ -253,7 +258,7 @@ class Auth_candidate extends Frontend_controller {
         $saveField = array(
             'first_name' => $postData['first_name'],
             'last_name' => $postData['last_name'],
-            'full_name' => $postData['first_name'].' '.$postData['last_name'],
+            'full_name' => $postData['first_name'] . ' ' . $postData['last_name'],
             'email' => $postData['email'],
             'password' => password_encription($postData['password'], true),
             'mobile_number' => $postData['mobile_number'],
@@ -274,9 +279,9 @@ class Auth_candidate extends Frontend_controller {
                 'receiver_id'   => $insert_id,
                 'SiteTitle'     => getSettingItem('SiteTitle'),
                 'receiver_email' => $postData['email'],
-                'full_name'      => $postData['first_name'].' '.$postData['last_name'],
-                'url'            => "<a target='_blank' href='".site_url('myaccount/profile')."'>".site_url('myaccount/profile')."</a>",
-                'verification'   => "<a target='_blank' href='".site_url('login?verification='.$code)."'>Click here to verify your account</a>"
+                'full_name'      => $postData['first_name'] . ' ' . $postData['last_name'],
+                'url'            => "<a target='_blank' href='" . site_url('myaccount/profile') . "'>" . site_url('myaccount/profile') . "</a>",
+                'verification'   => "<a target='_blank' href='" . site_url('login?verification=' . $code) . "'>Click here to verify your account</a>"
             ]);
 
             $this->session->set_flashdata('message', '<p class="ajax_success">Candidate Registration Has Been Successfully. Please check your email.</p>');
@@ -296,7 +301,8 @@ class Auth_candidate extends Frontend_controller {
         }
     }
 
-    public function unique_email() {
+    public function unique_email()
+    {
         $email = $this->input->post('email'); // get parent category
         $is_exist = $this->db->get_where('candidates', ['email' => $email, 'oauth_provider' => null])->num_rows();
 
@@ -308,7 +314,8 @@ class Auth_candidate extends Frontend_controller {
         }
     }
 
-    public function login_form($file_name) {
+    public function login_form($file_name)
+    {
 
         // Authenticate user with facebook 
         if ($this->facebook->is_authenticated()) {
@@ -327,20 +334,20 @@ class Auth_candidate extends Frontend_controller {
         $data['loginFormStyle'] = 'style="display:block;"';
         $data['singupFormStyle'] = 'style="display:none;"';
         $data['resetPassFormStyle'] = 'style="display:none;"';
-        
-        $data['meta_title']         = getSettingItem('SiteTitle') .' | ' . 'Log in page';
+
+        $data['meta_title']         = getSettingItem('SiteTitle') . ' | ' . 'Log in page';
         $data['meta_description']   = 'Log in page';
         $data['meta_keywords']      = 'Log in page';
 
         $verification = $this->input->get('verification');
-        if(isset($verification)){
+        if (isset($verification)) {
             $verification = decode($verification, 'jhgjh^gkjg8KJHG^T*%(^%k');
             $verification = json_decode($verification);
-            if($verification){
+            if ($verification) {
                 $row = $this->db->get_where('candidates', ['id' => $verification->id, 'email' => $verification->email, 'created_at' => $verification->date])->row();
-                if($row){
-                    if($row->status == 'Waiting'){
-                        $this->db->update('candidates', ['status'=>'Active'], ['id'=>$verification->id]);
+                if ($row) {
+                    if ($row->status == 'Waiting') {
+                        $this->db->update('candidates', ['status' => 'Active'], ['id' => $verification->id]);
                         $this->session->set_flashdata('verification', '<p class="ajax_success">Your account verification successfully!</p>');
                     } else {
                         $this->session->set_flashdata('verification', '<p class="ajax_notice">Your account already verified!</p>');
@@ -351,18 +358,19 @@ class Auth_candidate extends Frontend_controller {
             }
         }
 
-        $this->viewFrontContent('frontend/candidate/'.$file_name, $data);
+        $this->viewFrontContent('frontend/candidate/' . $file_name, $data);
     }
 
     //This function use for facebook call back function
-    public function facebook_callback() {
+    public function facebook_callback()
+    {
 
         if ($this->facebook->is_authenticated()) {
-            
+
             // Get user info from facebook 
             $fbUser = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,link,gender,picture');
-            if(!empty($fbUser['id'])){
-                
+            if (!empty($fbUser['id'])) {
+
                 // Preparing data for database insertion 
                 $userData['oauth_provider'] = 'facebook';
                 $userData['oauth_uid'] = !empty($fbUser['id']) ? $fbUser['id'] : null;
@@ -399,11 +407,10 @@ class Auth_candidate extends Frontend_controller {
 
                     // Store the status and user profile info into session 
                     $this->session->set_userdata('loggedIn', true);
+                } //if
 
-                }//if
-                
                 redirect(site_url('myaccount/profile'));
-            }//if
+            } //if
             redirect(site_url('login'));
             //The user has been successfully re-authenticated.
         }
@@ -412,7 +419,8 @@ class Auth_candidate extends Frontend_controller {
     }
 
     //This function use for google call back function
-    public function google_callback() {
+    public function google_callback()
+    {
 
         if (isset($_GET['code'])) {
             $this->google->setAccessToken();
@@ -462,7 +470,8 @@ class Auth_candidate extends Frontend_controller {
         }
     }
 
-    public function web_login() {
+    public function web_login()
+    {
 
         $username = $this->security->xss_clean(trim($this->input->post('username')));
         $password = $this->security->xss_clean(trim($this->input->post('password')));
@@ -473,11 +482,11 @@ class Auth_candidate extends Frontend_controller {
             exit;
         }
 
-//        $socialSingInExist = $this->socialSigninCheck($username);
-//        if($socialSingInExist){
-//            echo ajaxRespond('Fail', '<p class="ajax_error">This email sign in fcebook/google!</p>');
-//            exit;
-//        }
+        //        $socialSingInExist = $this->socialSigninCheck($username);
+        //        if($socialSingInExist){
+        //            echo ajaxRespond('Fail', '<p class="ajax_error">This email sign in fcebook/google!</p>');
+        //            exit;
+        //        }
 
         $candidate = $this->find($username);
         if (!$candidate) {
@@ -515,7 +524,8 @@ class Auth_candidate extends Frontend_controller {
         exit;
     }
 
-    public function forgot_pass() {
+    public function forgot_pass()
+    {
         ajaxAuthorized();
         $email = $this->input->post('forgot_mail');
 
@@ -525,7 +535,7 @@ class Auth_candidate extends Frontend_controller {
             $_token = encode($candidate->id, 'NGO_Career@2020');
             $array = [
                 'Status' => 'OK',
-                'email' => $email,               
+                'email' => $email,
                 '_token' => $_token,
                 'Msg' => '<p class="ajax_success">Reset password link sent to your email</p>'
             ];
@@ -543,25 +553,27 @@ class Auth_candidate extends Frontend_controller {
             echo ajaxRespond('Fail', '<p class="ajax_error">Email address not found!</p>');
         }
     }
-    
-    public function reset_password() {
+
+    public function reset_password()
+    {
 
         $token = $this->input->get('token');
         $data['token'] = $token;
-        $data['meta_title']         = getSettingItem('SiteTitle') .' | ' . 'Log in page';
+        $data['meta_title']         = getSettingItem('SiteTitle') . ' | ' . 'Log in page';
         $data['meta_description']   = 'Log in page';
         $data['meta_keywords']      = 'Log in page';
-        
+
         $this->viewFrontContent('frontend/candidate/reset_password', $data);
     }
-    
-    public function reset_pass_action() {
-        
-        ajaxAuthorized();       
+
+    public function reset_pass_action()
+    {
+
+        ajaxAuthorized();
         $token    = $this->input->post('token');
         $new_pass = $this->input->post('new_pass');
         $con_pass = $this->input->post('con_pass');
-        
+
         if ($new_pass != $con_pass) {
             echo ajaxRespond('Fail', '<p class="ajax_error">Confirm Password Not Match</p>');
             exit;
@@ -569,20 +581,21 @@ class Auth_candidate extends Frontend_controller {
 
         $candidate_id = decode($token, 'NGO_Career@2020');
         $this->db->select('id,email,mobile_number,full_name');
-        $this->db->where('id', $candidate_id );
-        $candidate  = $this->db->select('email')->get('candidates')->row();        
+        $this->db->where('id', $candidate_id);
+        $candidate  = $this->db->select('email')->get('candidates')->row();
 
         if ($candidate) {
             $hass_pass = password_encription($new_pass);
-            $this->db->update('candidates', ['password' => $hass_pass], ['id' => $candidate_id ]);
+            $this->db->update('candidates', ['password' => $hass_pass], ['id' => $candidate_id]);
             $this->saveSession($candidate);
             echo ajaxRespond('OK', '<p class="ajax_success">Password Reset Successfully</p>');
         } else {
             echo ajaxRespond('Fail', '<p class="ajax_error">Old Password not match, please try again.</p>');
-        }        
+        }
     }
-    
-    private function saveSession($candidate){
+
+    private function saveSession($candidate)
+    {
         $remember = (60 * 60 * 24 * 7);
         $cookie_data = json_encode([
             'id'        => $candidate->id,
@@ -604,26 +617,29 @@ class Auth_candidate extends Frontend_controller {
         $this->session->set_userdata('loggedIn', true);
     }
 
-    private function find($username) {
+    private function find($username)
+    {
         $this->db->select('id,email,mobile_number,full_name,oauth_provider,password,status');
         $this->db->where(['email' => $username, 'oauth_provider' => null]);
         return $this->db->get('candidates')->row();
     }
 
-    private function socialSigninCheck($email) {
+    private function socialSigninCheck($email)
+    {
         return $this->db
-                        ->select('*')
-                        ->where('email', $email)
-                        ->where_in('oauth_provider', ['facebook', 'google'])
-                        ->get('candidates')
-                        ->row();
+            ->select('*')
+            ->where('email', $email)
+            ->where_in('oauth_provider', ['facebook', 'google'])
+            ->get('candidates')
+            ->row();
     }
 
-    public function logout() {
+    public function logout()
+    {
         // Remove local Facebook session 
         $this->facebook->destroy_session();
         // Remove user data from session 
-//        $this->session->unset_userdata('userData'); 
+        //        $this->session->unset_userdata('userData'); 
         // Reset OAuth access token 
         $this->google->logout();
 
@@ -642,5 +658,4 @@ class Auth_candidate extends Frontend_controller {
         $this->session->unset_userdata('secure');
         redirect(site_url('login'));
     }
-
 }

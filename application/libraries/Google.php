@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
  * Login with Google for Codeigniter
@@ -10,30 +10,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @authors     Iqbal Hossen
  */
 
-class Google {
+class Google
+{
 
-    public function __construct() {
-        $this->ci = & get_instance();
-       
+    public function __construct()
+    {
+        $this->ci = &get_instance();
+
         include_once __DIR__ . '/../../vendor/autoload.php';
 
         $this->ci->load->config('google');
 
         $this->ci->load->library('session');
-//        $this->ci->load->helper('url');
+        //        $this->ci->load->helper('url');
 
         $this->client = new Google_Client();
         $this->client->setApplicationName($this->ci->config->item('applicationName'));
 
         $this->client->setClientId($this->ci->config->item('client_id'));
         $this->client->setClientSecret($this->ci->config->item('client_secret'));
-        
-        if(in_array($this->ci->uri->segment(1),array('admin', 'recruiter'))){
+
+        if (in_array($this->ci->uri->segment(1), array('admin', 'recruiter'))) {
             $this->client->setRedirectUri($this->ci->config->item('employer_redirect_uri'));
-        }else{
+        } else {
             $this->client->setRedirectUri($this->ci->config->item('redirect_uri'));
         }
-        
+
         $this->client->setDeveloperKey($this->ci->config->item('api_key'));
         $this->client->addScope("email");
         $this->client->addScope("profile");
@@ -60,15 +62,18 @@ class Google {
         }
     }
 
-    public function isLoggedIn() {
+    public function isLoggedIn()
+    {
         return $this->loggedIn;
     }
 
-    public function getLoginUrl() {
+    public function getLoginUrl()
+    {
         return $this->client->createAuthUrl();
     }
 
-    public function setAccessToken() {
+    public function setAccessToken()
+    {
         $this->client->authenticate($_GET['code']);
 
         $accessToken = $this->client->getAccessToken();
@@ -80,14 +85,16 @@ class Google {
         }
     }
 
-    public function getUserInfo() {
-        
+    public function getUserInfo()
+    {
+
         $service = new Google_Service_Oauth2($this->client);
 
         return $service->userinfo->get();
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->ci->session->unset_userdata('refreshToken');
 
         $accessToken = $this->client->getAccessToken();
@@ -96,7 +103,4 @@ class Google {
             $this->client->revokeToken($accessToken);
         }
     }
-
 }
-
-?>

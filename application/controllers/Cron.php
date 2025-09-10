@@ -12,12 +12,12 @@ class Cron extends MX_Controller
 
     function index()
     {
-//        Modules::run('mail/cronReportToDev', 'link');
-//        exit();
+        //        Modules::run('mail/cronReportToDev', 'link');
+        //        exit();
         $this->sendJobAlertToCandidateForAllCategory('Daily');
         $this->sendJobAlertToCandidateForSelectedCategory('Daily');
         $this->sendJobAlertUsingKeywords('Daily');
-//        $this->sendJobAlertToCandidateForSelectedCategoryForSubscribers('Daily');
+        //        $this->sendJobAlertToCandidateForSelectedCategoryForSubscribers('Daily');
 
         $report = 'Daily Run<br/>' . "\r\n";
 
@@ -26,7 +26,7 @@ class Cron extends MX_Controller
             $this->sendJobAlertToCandidateForSelectedCategory('Monthly');
             $this->sendJobAlertToCandidateForAllCategory('Monthly');
             $this->sendJobAlertUsingKeywords('Monthly');
-//            $this->sendJobAlertToCandidateForSelectedCategoryForSubscribers('Monthly');
+            //            $this->sendJobAlertToCandidateForSelectedCategoryForSubscribers('Monthly');
             $this->sendJobAlertForSubscribers(); // Monthly Only
             $report .= 'Monthly Run<br/>' . "\r\n";
         }
@@ -35,7 +35,7 @@ class Cron extends MX_Controller
             $this->sendJobAlertToCandidateForSelectedCategory('Weekly');
             $this->sendJobAlertToCandidateForAllCategory('Weekly');
             $this->sendJobAlertUsingKeywords('Weekly');
-//            $this->sendJobAlertToCandidateForSelectedCategoryForSubscribers('Weekly');
+            //            $this->sendJobAlertToCandidateForSelectedCategoryForSubscribers('Weekly');
             $report .= 'Weekly Run<br/>' . "\r\n";
         }
         $this->submitSiteMap();
@@ -57,7 +57,8 @@ class Cron extends MX_Controller
         curl_close($ch);
     }
 
-    private function generateSiteMap(){
+    private function generateSiteMap()
+    {
         // create a new cURL resource
         $ch = curl_init();
         // set URL and other appropriate options
@@ -166,7 +167,7 @@ class Cron extends MX_Controller
               ) AS distance');
             $this->db->from('jobs as j');
             $this->db->join('users as u', 'u.id=j.user_id', 'LEFT');
-//            $this->db->where('jas.email_frequency',  $frequency );
+            //            $this->db->where('jas.email_frequency',  $frequency );
             if ($frequency == 'Daily') {
                 $this->db->where('j.created_at >=', date('Y-m-d 00:00:00', strtotime('-1 Day')));
                 $this->db->where('j.created_at <=', date('Y-m-d 23:59:59', strtotime('-1 Day')));
@@ -177,7 +178,7 @@ class Cron extends MX_Controller
                 $this->db->where('j.created_at >=', date('Y-m-01 00:00:00', strtotime('-1 Month')));
                 $this->db->where('j.created_at <=', date('Y-m-31 23:59:59', strtotime('-1 Month')));
             }
-//            $this->db->having('distance <=', 500);
+            //            $this->db->having('distance <=', 500);
 
             $this->db->order_by('distance', 'ASC');
             $this->db->order_by('j.id', 'ASC');
@@ -357,75 +358,75 @@ class Cron extends MX_Controller
         }
     }
 
-//    private function sendJobAlertToCandidateForSelectedCategoryForSubscribers( $frequency = 'Daily' )
-//    {
-//        //Get job alert info & candidate info
-//        $this->db->select('jas.candidate_id, jas.location, jas.lat, jas.lng, jas.distance, jas.email');
-//        $this->db->select('jas.email_frequency');
-//        $this->db->select("GROUP_CONCAT(j.id) as job_ids");
-//        $this->db->from('job_alert_setup as jas');
-//
-//        $this->db->join('jobs as j', 'FIND_IN_SET(j.job_category_id, jas.job_category_ids) > 0', 'INNER');
-//        $this->db->where('j.status', 'Published');
-//        $this->db->where('jas.email_frequency',  $frequency);
-//
-//        if($frequency == 'Daily'){
-//            $this->db->where('j.created_at >=', date('Y-m-d 00:00:00', strtotime('-1 Day')));
-//            $this->db->where('j.created_at <=', date('Y-m-d 23:59:59', strtotime('-1 Day')));
-//        } elseif($frequency == 'Weekly'){
-//            $this->db->where('j.created_at >=', date('Y-m-d 00:00:00', strtotime('-8 Days')));
-//            $this->db->where('j.created_at <=', date('Y-m-d 23:59:59', strtotime('-1 Day')));
-//        } else{
-//            $this->db->where('j.created_at >=', date('Y-m-01 00:00:00', strtotime('-1 Month')));
-//            $this->db->where('j.created_at <=', date('Y-m-31 23:59:59', strtotime('-1 Month')));
-//        }
-//
-//        $this->db->where('jas.status', 'On');
-//
-//        $jobAlerts = $this->db->get()->result();
-//
-//        if (!$jobAlerts) {
-//            return false;
-//        }
-//
-//        foreach ($jobAlerts as $job) {
-//            $this->db->select('j.job_category_id');
-//            $this->db->select('j.id, j.title, j.location, j.deadline, j.salary_type');
-//            $this->db->select('j.salary_min, j.salary_max, j.salary_currency');
-//            $this->db->select('IFNULL(j.AdvertiserName, u.company_name) as company');
-//            $this->db->select('(
-//                    3959 * acos (
-//                    cos ( radians('.$job->lat.') )
-//                    * cos( radians( j.lat ) )
-//                    * cos( radians( j.lng ) - radians('.$job->lng.') )
-//                    + sin ( radians('.$job->lat.') )
-//                    * sin( radians( j.lat ) )
-//                  )
-//              ) AS distance');
-//            $this->db->from('jobs as j');
-//            $this->db->join('users as u', 'u.id=j.user_id', 'LEFT');
-//            $this->db->where_in('j.id', explode(', ', $job->job_ids));
-//            $this->db->order_by('distance', 'ASC');
-//            $this->db->order_by('j.id', 'ASC');
-//            $this->db->having('distance <=', 500);
-//            $this->db->limit(20);
-//            $jobs = $this->db->get()->result();
-//
-//            if(!$jobs){
-//                return FALSE;
-//            }
-//            $data['jobs'] = $jobs;
-//            $body = $this->load->view('job_alert_layout', $data, true);
-//
-//            $prams = array(
-//                'candidate_id' => $job->candidate_id,
-//                'send_to' => $job->email,
-//                'subject' => 'NGO Career || Job Alert', //trim($subject, ', '),
-//                'body' => $body,
-//            );
-//            echo Modules::run('mail/sendJobAlerts', $prams);
-//        }
-//    }
+    //    private function sendJobAlertToCandidateForSelectedCategoryForSubscribers( $frequency = 'Daily' )
+    //    {
+    //        //Get job alert info & candidate info
+    //        $this->db->select('jas.candidate_id, jas.location, jas.lat, jas.lng, jas.distance, jas.email');
+    //        $this->db->select('jas.email_frequency');
+    //        $this->db->select("GROUP_CONCAT(j.id) as job_ids");
+    //        $this->db->from('job_alert_setup as jas');
+    //
+    //        $this->db->join('jobs as j', 'FIND_IN_SET(j.job_category_id, jas.job_category_ids) > 0', 'INNER');
+    //        $this->db->where('j.status', 'Published');
+    //        $this->db->where('jas.email_frequency',  $frequency);
+    //
+    //        if($frequency == 'Daily'){
+    //            $this->db->where('j.created_at >=', date('Y-m-d 00:00:00', strtotime('-1 Day')));
+    //            $this->db->where('j.created_at <=', date('Y-m-d 23:59:59', strtotime('-1 Day')));
+    //        } elseif($frequency == 'Weekly'){
+    //            $this->db->where('j.created_at >=', date('Y-m-d 00:00:00', strtotime('-8 Days')));
+    //            $this->db->where('j.created_at <=', date('Y-m-d 23:59:59', strtotime('-1 Day')));
+    //        } else{
+    //            $this->db->where('j.created_at >=', date('Y-m-01 00:00:00', strtotime('-1 Month')));
+    //            $this->db->where('j.created_at <=', date('Y-m-31 23:59:59', strtotime('-1 Month')));
+    //        }
+    //
+    //        $this->db->where('jas.status', 'On');
+    //
+    //        $jobAlerts = $this->db->get()->result();
+    //
+    //        if (!$jobAlerts) {
+    //            return false;
+    //        }
+    //
+    //        foreach ($jobAlerts as $job) {
+    //            $this->db->select('j.job_category_id');
+    //            $this->db->select('j.id, j.title, j.location, j.deadline, j.salary_type');
+    //            $this->db->select('j.salary_min, j.salary_max, j.salary_currency');
+    //            $this->db->select('IFNULL(j.AdvertiserName, u.company_name) as company');
+    //            $this->db->select('(
+    //                    3959 * acos (
+    //                    cos ( radians('.$job->lat.') )
+    //                    * cos( radians( j.lat ) )
+    //                    * cos( radians( j.lng ) - radians('.$job->lng.') )
+    //                    + sin ( radians('.$job->lat.') )
+    //                    * sin( radians( j.lat ) )
+    //                  )
+    //              ) AS distance');
+    //            $this->db->from('jobs as j');
+    //            $this->db->join('users as u', 'u.id=j.user_id', 'LEFT');
+    //            $this->db->where_in('j.id', explode(', ', $job->job_ids));
+    //            $this->db->order_by('distance', 'ASC');
+    //            $this->db->order_by('j.id', 'ASC');
+    //            $this->db->having('distance <=', 500);
+    //            $this->db->limit(20);
+    //            $jobs = $this->db->get()->result();
+    //
+    //            if(!$jobs){
+    //                return FALSE;
+    //            }
+    //            $data['jobs'] = $jobs;
+    //            $body = $this->load->view('job_alert_layout', $data, true);
+    //
+    //            $prams = array(
+    //                'candidate_id' => $job->candidate_id,
+    //                'send_to' => $job->email,
+    //                'subject' => 'NGO Career || Job Alert', //trim($subject, ', '),
+    //                'body' => $body,
+    //            );
+    //            echo Modules::run('mail/sendJobAlerts', $prams);
+    //        }
+    //    }
 
     /* Finished */
     private function sendJobAlertForSubscribers()
@@ -433,7 +434,7 @@ class Cron extends MX_Controller
         $this->db->select('j.job_category_id');
         $this->db->select('j.id, j.title, j.location, j.deadline, j.salary_type');
         $this->db->select('j.salary_min, j.salary_max, j.salary_currency, u.logo');
-//        $this->db->select('u.company_name,j.AdvertiserName');
+        //        $this->db->select('u.company_name,j.AdvertiserName');
         $this->db->select('IFNULL(j.AdvertiserName, u.company_name) as company');
         $this->db->from('jobs as j');
         $this->db->join('users as u', 'u.id=j.user_id', 'LEFT');

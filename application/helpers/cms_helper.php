@@ -43,7 +43,7 @@ function getPostWidgetByCategoryID($category_id = 0, $limit = 20)
 
 function getReviewsHome()
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $reviews = $ci->db->get_where('testimonials', ['status' => 'Active'])->result();
 
     $html = '';
@@ -81,14 +81,13 @@ function getReviewsHome()
 
 
     return $html;
-
 }
 
 function getPostWidgetByCategoryIDNews($category_id = 0, $limit = 16)
 {
     $ci = &get_instance();
     $ci->db->from('cms');
-    if($category_id){
+    if ($category_id) {
         $ci->db->where('parent_id', $category_id);
     }
     $ci->db->where('post_type', 'post');
@@ -152,7 +151,7 @@ function getRelatedPost($category_id = 0, $limit = 20)
 {
     $ci = &get_instance();
     $ci->db->from('cms');
-    if($category_id){
+    if ($category_id) {
         $ci->db->where('parent_id', $category_id);
     }
     $ci->db->where('post_type', 'post');
@@ -166,8 +165,8 @@ function getRelatedPost($category_id = 0, $limit = 20)
         $html .= '<a href="' . $post->post_url . '">' . getCMSFeaturedThumb($post->thumb, "265", "190") . '</a>';
         $html .= '</div>';
         $html .= '<div class="box-feature-content">';
-        $html .= '<a href="'.$post->post_url.'"><h3>'.getShortContent($post->post_title, 30).'</h3></a>';
-        $html .= '<p>'.getShortContent($post->content, 80).'</p>';
+        $html .= '<a href="' . $post->post_url . '"><h3>' . getShortContent($post->post_title, 30) . '</h3></a>';
+        $html .= '<p>' . getShortContent($post->content, 80) . '</p>';
         $html .= '</div>';
         $html .= ' </div>';
     }
@@ -368,7 +367,7 @@ function navigationBuilder($items, $parentID = 0, $level = 0, $active = 0)
 
 function blogCatList()
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $url = $ci->uri->segment(2);
 
     $ci->db->select('count(*)');

@@ -10,7 +10,7 @@ class Sitemap extends Frontend_controller
     public function index()
     {
         $key = $this->input->get('key');
-        if($key != 'RmxpY2sgTWVkaWE='){
+        if ($key != 'RmxpY2sgTWVkaWE=') {
             echo ajaxAuthorized();
         }
 
@@ -23,7 +23,7 @@ class Sitemap extends Frontend_controller
         $this->generateXML($array);
 
         echo 'Sitemap Generate Success!';
-        redirect( site_url('admin') );
+        redirect(site_url('admin'));
     }
 
     private function generateXML($array)
@@ -43,10 +43,9 @@ class Sitemap extends Frontend_controller
 
         $xml .= "\r\n";
         $xml .= '</urlset>';
-        file_put_contents( FCPATH . '/sitemap.xml', $xml);
-        
+        file_put_contents(FCPATH . '/sitemap.xml', $xml);
     }
-    
+
 
     private function formateLastmod($lastmod)
     {
@@ -111,7 +110,7 @@ class Sitemap extends Frontend_controller
         foreach ($pages as $page) {
             $data[] = [
                 'title' => $page->title,
-                'url' => site_url('job-details/'.$page->id.'/'.slugify($page->title).'.html'),
+                'url' => site_url('job-details/' . $page->id . '/' . slugify($page->title) . '.html'),
                 'priority' => '0.80',
                 'lastmod'   => $this->formateLastmod($page->updated_at),
             ];

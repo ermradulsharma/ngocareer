@@ -9,7 +9,7 @@ $route['admin/cms/update_status']   = 'cms/update_status';
 $route['admin/cms/remove_featured_image']   = 'cms/remove_featured_image';
 
 /* ======== For Post ========== */
-$route['admin/cms/posts']             	= 'cms/posts';
+$route['admin/cms/posts']                 = 'cms/posts';
 $route['admin/cms/new_post']            = 'cms/new_post';
 $route['admin/cms/create_action_post']  = 'cms/create_action_post';
 $route['admin/cms/update_action_post']  = 'cms/update_action_post';

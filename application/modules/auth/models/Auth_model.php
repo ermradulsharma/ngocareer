@@ -1,10 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Auth_model extends Fm_model{
+class Auth_model extends Fm_model
+{
 
     public $table   = 'users';
-    
-    function __construct(){
+
+    function __construct()
+    {
         parent::__construct();
     }
 
@@ -12,21 +14,23 @@ class Auth_model extends Fm_model{
      * @param $username string    
      * @return array
      */
-    function find($username){
+    function find($username)
+    {
         return $this->db
-                ->select('id,role_id,first_name,last_name,email,password,status,logo')
-                ->get_where($this->table, ['email' => $username, 'oauth_provider'=>null] )
-                ->row();
+            ->select('id,role_id,first_name,last_name,email,password,status,logo')
+            ->get_where($this->table, ['email' => $username, 'oauth_provider' => null])
+            ->row();
     }
-    
+
     /*
      * Insert / Update facebook profile data into the database
      * Insert / Update google profile data into the database
      * @param array the data for inserting into the table
      */
 
-    public function checkFacebookGoogleUser($userData = array()) {
-        
+    public function checkFacebookGoogleUser($userData = array())
+    {
+
         if (!empty($userData)) {
             //check whether user data already exists in database with same oauth info
             $this->db->select('id');
@@ -39,8 +43,8 @@ class Auth_model extends Fm_model{
                 $prevResult = $prevQuery->row_array();
 
                 //update user data
-//                $userData['modified'] = date("Y-m-d H:i:s");
-//                $update = $this->db->update('users', $userData, array('id' => $prevResult['id']));
+                //                $userData['modified'] = date("Y-m-d H:i:s");
+                //                $update = $this->db->update('users', $userData, array('id' => $prevResult['id']));
                 //get user ID
                 $userID = $prevResult['id'];
             } else {
@@ -58,8 +62,8 @@ class Auth_model extends Fm_model{
         return $userID ? $userID : FALSE;
     }
 
-//    function sign_up($data){                
-//        $this->db->insert($this->table, $data);
-//    }
-                     
+    //    function sign_up($data){                
+    //        $this->db->insert($this->table, $data);
+    //    }
+
 }

@@ -47,10 +47,10 @@ class Service
   public function createBatch()
   {
     return new Google_Http_Batch(
-        $this->client,
-        false,
-        $this->rootUrl,
-        $this->batchPath
+      $this->client,
+      false,
+      $this->rootUrl,
+      $this->batchPath
     );
   }
 }

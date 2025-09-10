@@ -15,7 +15,7 @@ class Comment extends Frontend_controller
     function add_comment()
     {
         ajaxAuthorized();
-        if(getSettingItem('CommentAutoApprove') == 'Yes'){
+        if (getSettingItem('CommentAutoApprove') == 'Yes') {
             $status = 'Approve';
             $msg = 'Comment added success!';
         } else {
@@ -32,9 +32,8 @@ class Comment extends Frontend_controller
             'status' => $status,
             'created_at' => date('Y-m-d H:i:s')
         );
-//        dd($data);
+        //        dd($data);
         $this->db->insert('cms_comments', $data);
-        echo ajaxRespond('OK', '<p class="ajax_success">'.$msg.'</p>');
+        echo ajaxRespond('OK', '<p class="ajax_success">' . $msg . '</p>');
     }
-
 }

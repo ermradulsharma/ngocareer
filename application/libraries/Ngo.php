@@ -6,7 +6,8 @@
  * @author Khairul Azam
  * Date: 25th Feb, 2020
  */
-class Ngo {
+class Ngo
+{
 
     //put your code here
 
@@ -14,7 +15,7 @@ class Ngo {
 
     function __construct()
     {
-        self::$ci = & get_instance();
+        self::$ci = &get_instance();
     }
 
     static public function getDaysRange($range = '')
@@ -58,10 +59,10 @@ class Ngo {
         $ci = &get_instance();
         $benefit_ids = explode(',', $benefit_ids);
         $results = $ci->db
-                ->select('name')
-                ->where_in('id', $benefit_ids)
-                ->get('job_benefits')
-                ->result();
+            ->select('name')
+            ->where_in('id', $benefit_ids)
+            ->get('job_benefits')
+            ->result();
         if ($results) {
             $html = '<h5><strong>Benefits</strong></h5>';
             foreach ($results as $result) {
@@ -76,10 +77,10 @@ class Ngo {
         $ci = &get_instance();
         $skill_ids = explode(',', $skill_ids);
         $results = $ci->db
-                ->select('name')
-                ->where_in('id', $skill_ids)
-                ->get('job_skills')
-                ->result();
+            ->select('name')
+            ->where_in('id', $skill_ids)
+            ->get('job_skills')
+            ->result();
         if ($results) {
             $html = '<h5><strong>Skills</strong></h5>';
             foreach ($results as $result) {
@@ -224,8 +225,7 @@ class Ngo {
         self::$ci->db->join('job_categories as c', 'j.job_category_id = c.id', 'LEFT');
         self::$ci->db->join('users as u', 'u.id = j.user_id', 'LEFT');
         self::$ci->db->where($where);
-        self::$ci->db->where('deadline >=', date('Y-m-d'));
-        ;
+        self::$ci->db->where('deadline >=', date('Y-m-d'));;
         self::$ci->db->limit($limit);
         return self::$ci->db->get()->result();
     }
@@ -243,7 +243,7 @@ class Ngo {
         self::$ci->db->select('u.id as company_id');
         self::$ci->db->select('u.company_name as company_name');
         self::$ci->db->select('u.logo as company_logo');
-//        self::$ci->db->select('count(j.user_id) as total');
+        //        self::$ci->db->select('count(j.user_id) as total');
         self::$ci->db->from('users as u');
         self::$ci->db->where('u.role_id', '4');
         self::$ci->db->where('u.is_featured', '1');
@@ -262,7 +262,7 @@ class Ngo {
         self::$ci->db->join('users as u', 'u.id = j.user_id', 'LEFT');
         self::$ci->db->where('j.status', 'Published');
         self::$ci->db->where('j.created_at >=', date('Y-m-d 00:00:00', strtotime('-30 Days')));
-        self::$ci->db->order_by('id','DESC');
+        self::$ci->db->order_by('id', 'DESC');
         self::$ci->db->limit($limit);
         return self::$ci->db->get()->result();
     }
@@ -274,7 +274,7 @@ class Ngo {
                 LEFT JOIN job_categories as c on c.id = j.job_category_id
                 WHERE job_category_id != 0 and status = "Published" and deadline >= NOW()
                 GROUP BY `job_category_id` ORDER BY `name` ASC limit 30';
-        
+
         $categories = self::$ci->db->query($sql)->result();
 
         $html = '<ul>';
@@ -292,12 +292,12 @@ class Ngo {
     //Get all jobs country & jobs count
     // static function getAllJobsByCountry()
     // {
-          
+
     //     $sql = 'SELECT COUNT(*) AS `Qty`, `country_id` as cid, c.name as country FROM `jobs`
     //             LEFT JOIN countries as c on c.id = jobs.country_id
     //             WHERE country_id != 0 and status = "Published" and deadline >= NOW()
     //             GROUP BY `country_id` ORDER BY `Qty` DESC limit 30';
-        
+
     //     $countries = self::$ci->db->query($sql)->result();
 
     //     $html = '<ul>';
@@ -310,14 +310,14 @@ class Ngo {
     //     return $html;
     // }
 
-     static function getAllJobsByCountry()
+    static function getAllJobsByCountry()
     {
-          
+
         $sql = 'SELECT COUNT(*) AS `Qty`, `country_id` as cid, c.name as country FROM `jobs`
                 LEFT JOIN countries as c on c.id = jobs.country_id
                 WHERE country_id != 0 and status = "Published" and deadline >= NOW()
                 GROUP BY `country_id` ORDER BY `Qty` DESC limit 30';
-        
+
         $countries = self::$ci->db->query($sql)->result();
         //$Advertisers = self::$ci->db->get()->result();
 
@@ -327,11 +327,11 @@ class Ngo {
         //     $html .= "{$row->country} ({$row->Qty} Jobs)";
         //     $html .= '</a></li>';
         // }
-           foreach ($countries as $row) {
-                $url = site_url("jobs/{$row->country_id}". slugify($row->country));
-                $html .= "<li><a href=\"{$url}\">";
-                $html .= "{$row->country} Jobs ({$row->Qty})";
-                $html .= '</a></li>';
+        foreach ($countries as $row) {
+            $url = site_url("jobs/{$row->country_id}" . slugify($row->country));
+            $html .= "<li><a href=\"{$url}\">";
+            $html .= "{$row->country} Jobs ({$row->Qty})";
+            $html .= '</a></li>';
         }
         $html .= '</ul>';
         return $html;
@@ -341,7 +341,7 @@ class Ngo {
     {
         //Get total jobs count GROUP BY Category
         self::$ci->db->select('count(*)');
-//        self::$ci->db->where('status', 'Publish');
+        //        self::$ci->db->where('status', 'Publish');
         self::$ci->db->where('jobs.user_id', 'u.id', false);
         $job_qty = self::$ci->db->get_compiled_select('jobs');
 
@@ -368,12 +368,12 @@ class Ngo {
     //Get all employers & jobs count
     static function getAllJobsByAdvertiser()
     {
-        
+
         // SELECT COUNT(*) AS `Rows`, `AdvertiserName` FROM `jobs` GROUP BY `AdvertiserName` ORDER BY `Rows` DESC LIMIT 30
 
 
         //Get All Employers
-        self::$ci->db->select('COUNT(*) AS `Qty`, `AdvertiserName`');        
+        self::$ci->db->select('COUNT(*) AS `Qty`, `AdvertiserName`');
         self::$ci->db->from('jobs');
         self::$ci->db->group_by('AdvertiserName');
         self::$ci->db->order_by('Qty', 'DESC');
@@ -403,16 +403,16 @@ class Ngo {
                 join organization_types as ot on ot.id = u.org_type_id
                 where j.status = 'Published' and j.deadline >= '{$today}'
                 GROUP by u.org_type_id";
-        
-        
+
+
         $org_types = self::$ci->db->query($sql)->result();
 
         $html = '<ul>';
-        foreach ($org_types as $type) {            
+        foreach ($org_types as $type) {
             $url = site_url("ngo-job-search?org={$type->id}");
             $html .= "<li><a href=\"{$url}\">";
             $html .= "{$type->name} ({$type->posts})";
-            $html .= '</a></li>';            
+            $html .= '</a></li>';
         }
         $html .= '</ul>';
         return $html;
@@ -456,7 +456,7 @@ class Ngo {
         return self::$ci->db->count_all_results();
     }
 
-    
+
 
     static public function jobAdsSummery()
     {
@@ -464,16 +464,16 @@ class Ngo {
         $ci->db->where('status', 'Published');
         $jobs = $ci->db->count_all_results('jobs');
         $f_jobs = number_format($jobs);
-                        
+
         $ci->db->where('user_id', '0');
         $ci->db->group_by('AdvertiserName');
-//        $advtizer = $ci->db->count_all_results('jobs');
-        $advtizer = $ci->db->get('jobs')->num_rows();             
-        
+        //        $advtizer = $ci->db->count_all_results('jobs');
+        $advtizer = $ci->db->get('jobs')->num_rows();
+
         $ci->db->where('role_id', 4);
         $ci->db->where('status', 'Active');
         $companies = $ci->db->count_all_results('users');
-        $f_companies = number_format($companies + $advtizer );
+        $f_companies = number_format($companies + $advtizer);
         return "<span>{$f_jobs}</span> Job Ads | <span>{$f_companies}</span> Companies";
     }
 
@@ -496,11 +496,11 @@ class Ngo {
 
     //Get all employers & jobs count
     static function popularLocations()
-    {        
+    {
         $json = file_get_contents(__DIR__ . '/locations.json');
         $locs = \GuzzleHttp\json_decode($json);
-        
-        $html = '<ul>';    
+
+        $html = '<ul>';
         foreach ($locs as $loc) {
             $url = ("ngo-job-search?location={$loc->name}&lat={$loc->lat}&lng={$loc->lng}&dis=50");
             $html .= "<li><a href=\"{$url}\">";
@@ -509,10 +509,9 @@ class Ngo {
         }
         $html .= '</ul>';
         return $html;
-        
     }
-    
-    
+
+
     static function getEventByCategories()
     {
         //Get total jobs count GROUP BY Category
@@ -526,12 +525,12 @@ class Ngo {
         self::$ci->db->select('e.id as id, e.name as name');
         self::$ci->db->select("({$job_qty}) as posts");
         self::$ci->db->from('event_categories as e');
-        self::$ci->db->order_by('e.name','ASC');
+        self::$ci->db->order_by('e.name', 'ASC');
         $categories = self::$ci->db->get()->result();
 
         $html = '<ul>';
         foreach ($categories as $cat) {
-            if($cat->posts){
+            if ($cat->posts) {
                 $html .= "<li><a href=\"events?category={$cat->id}\">";
                 $html .= "{$cat->name} ({$cat->posts})";
                 $html .= '</a></li>';
@@ -540,6 +539,4 @@ class Ngo {
         $html .= '</ul>';
         return $html;
     }
-
-
 }

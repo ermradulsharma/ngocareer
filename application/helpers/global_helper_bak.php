@@ -1,6 +1,7 @@
 <?php
 
-function getPhotoNew($config = []) {
+function getPhotoNew($config = [])
+{
     $default = [
         'class' => 'img-responsive',
         'attr'  => '',
@@ -8,40 +9,44 @@ function getPhotoNew($config = []) {
         'no_photo_size' => 'default',
     ];
     $setting =  $config + $default;
-    
-    $filename = dirname(APPPATH) .'/'. $setting['photo'];
+
+    $filename = dirname(APPPATH) . '/' . $setting['photo'];
     if ($setting['photo'] && file_exists($filename)) {
-        return '<img class="'. $setting['class'] .'" src="'.$setting['photo'].'" '.$setting['attr'].'>';
+        return '<img class="' . $setting['class'] . '" src="' . $setting['photo'] . '" ' . $setting['attr'] . '>';
     } else {
-        return '<img class="no_photo '.$setting['class'].'" src="uploads/no_photo_'.$setting['no_photo_size'].'.jpg" ' .$setting['attr']. '>';
+        return '<img class="no_photo ' . $setting['class'] . '" src="uploads/no_photo_' . $setting['no_photo_size'] . '.jpg" ' . $setting['attr'] . '>';
     }
 }
 
-function getEmailById($user_id = 0){
-    $CI = & get_instance();
+function getEmailById($user_id = 0)
+{
+    $CI = &get_instance();
     $user = $CI->db->select('email')->where('id', $user_id)->get('users')->row();
     return ($user) ? $user->email : null;
 }
 
-function featured_status($data_id,$status){
-    if($status == 'Yes'){
+function featured_status($data_id, $status)
+{
+    if ($status == 'Yes') {
         return "<span id=\"fea_$data_id\"><span title='Click to unfeature' class=\"ajax_active\" onClick=\"change_featured_status($data_id,$status);\"><i class=\"fa fa-retweet\"></i> Yes</span></span>";
     } else {
         return "<span id=\"fea_$data_id\"><span title='Click to Feature' class=\"ajax_inactive\" onClick=\"change_featured_status($data_id,$status);\"><i class=\"fa fa-retweet\"></i> No</span></span>";
     }
 }
 
-function getUserData($user_id = 0, $filde_name = 'id'){
-    $CI =& get_instance();
-    $user =$CI->db->select($filde_name)->from('users')->where('id',$user_id)->get()->row();
-    if($user){
+function getUserData($user_id = 0, $filde_name = 'id')
+{
+    $CI = &get_instance();
+    $user = $CI->db->select($filde_name)->from('users')->where('id', $user_id)->get()->row();
+    if ($user) {
         return $user->$filde_name;
-    }else{
+    } else {
         return $id = 0;
     }
 }
 
-function getCurrencyCode() {
+function getCurrencyCode()
+{
     $prefix = getSettingItem('Currency');
     switch ($prefix) {
         case '&pound;':
@@ -62,7 +67,8 @@ function getCurrencyCode() {
 }
 
 
-function timePassed($date_time = '0000-00-00 00:00:00') {
+function timePassed($date_time = '0000-00-00 00:00:00')
+{
     $return = '';
 
     if ($date_time == '0000-00-00 00:00:00') {
@@ -74,7 +80,12 @@ function timePassed($date_time = '0000-00-00 00:00:00') {
         $diff = $current_time - $timestamp;
 
         $intervals = array(
-            'year' => 31556926, 'month' => 2629744, 'week' => 604800, 'day' => 86400, 'hour' => 3600, 'minute' => 60
+            'year' => 31556926,
+            'month' => 2629744,
+            'week' => 604800,
+            'day' => 86400,
+            'hour' => 3600,
+            'minute' => 60
         );
         if ($diff == 0) {
             $return = 'just now';
@@ -110,7 +121,8 @@ function timePassed($date_time = '0000-00-00 00:00:00') {
     return $return;
 }
 
-function time_elapsed_string($datetime, $full = false) {
+function time_elapsed_string($datetime, $full = false)
+{
     $now = new DateTime;
     $ago = new DateTime($datetime);
     $diff = $now->diff($ago);

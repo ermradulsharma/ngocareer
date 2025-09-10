@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 function getShortContent($long_text = '', $show = 100)
 {
@@ -28,13 +28,13 @@ function pp($data)
     echo '<pre>';
     print_r($data);
     echo '</pre>';
-//    exit();
+    //    exit();
 }
 
 function getLoginUserData($key = '')
 {
     //key: user_id, user_mail, role_id, name, photo
-    $data =& get_instance();
+    $data = &get_instance();
     $prefix = $data->config->item('cookie_prefix');
     $global = json_decode(base64_decode($data->input->cookie("{$prefix}login_data", false)));
     return isset($global->$key) ? $global->$key : null;
@@ -43,7 +43,7 @@ function getLoginUserData($key = '')
 function getLoginCandidatetData($key = '')
 {
     //key: student_id, student_email, student_gmc, student_namestudent_name, student_history
-    $data =& get_instance();
+    $data = &get_instance();
     $prefix = $data->config->item('cookie_prefix');
     $global = json_decode(base64_decode($data->input->cookie("{$prefix}candidate_data", false)));
     return isset($global->$key) ? $global->$key : null;
@@ -341,7 +341,12 @@ function timePassed($post_date)
     $diff = $current_time - $timestamp;
 
     $intervals = array(
-        'year' => 31556926, 'month' => 2629744, 'week' => 604800, 'day' => 86400, 'hour' => 3600, 'minute' => 60
+        'year' => 31556926,
+        'month' => 2629744,
+        'week' => 604800,
+        'day' => 86400,
+        'hour' => 3600,
+        'minute' => 60
     );
 
     if ($diff == 0) {
@@ -391,7 +396,7 @@ function timePassed($post_date)
 
 function timeLeft($end_date)
 {
-    $date = strtotime($end_date);//Converted to a PHP date (a second count)
+    $date = strtotime($end_date); //Converted to a PHP date (a second count)
     if ($date > time()) {
         // Calculate difference
         $diff = $date - time(); //time returns current time in seconds
@@ -410,8 +415,8 @@ function deadline($date)
     $date2 = new DateTime($today);
     $diff = $date1->diff($date2);
 
-    if ($diff->days >= 0 ) {
-        return GDF($date) .  "<br/><small style=\"color: red\"> ({$diff->days} Days Left)</small>";        
+    if ($diff->days >= 0) {
+        return GDF($date) .  "<br/><small style=\"color: red\"> ({$diff->days} Days Left)</small>";
     } else {
         return GDF($date) . '<br/><small style="color: red">(Expired)</span></small>';
     }
@@ -457,7 +462,7 @@ function getDropDownCountries($country_id = 0, $level = '--Select Country--')
 {
     $ci = &get_instance();
     $countries = $ci->db->get('countries')->result();
-    $options = '<option value="">'.$level.'</option>';
+    $options = '<option value="">' . $level . '</option>';
     foreach ($countries as $country) {
         $options .= '<option value="' . $country->id . '" ';
         $options .= ($country->id == $country_id) ? 'selected="selected"' : '';
@@ -468,7 +473,7 @@ function getDropDownCountries($country_id = 0, $level = '--Select Country--')
 
 function getDropDownEthnicitys($ethnicity_id = 0)
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $restuls = $ci->db->get('ethnicities')->result();
 
     $ethnicities = [];
@@ -789,11 +794,11 @@ function more_text($text, $id = 1, $limit = 200)
     }
     return $html;
 
-//    js need
-//    function view_full_text(id){	
-//        $('#less'+id).toggle();
-//        $('#more'+id).toggle();
-//    }
+    //    js need
+    //    function view_full_text(id){	
+    //        $('#less'+id).toggle();
+    //        $('#more'+id).toggle();
+    //    }
 }
 
 function getPhotoWithLtr($photo, $name = '', $noPhotoWidth = '150', $noPhotoHeight = '150')
@@ -913,24 +918,28 @@ function sendMail($template, $options)
     return Modules::run('mail/processor', $template, $options);
 }
 
-function vacancyFormat( $vac = 0){
-    return (!$vac) ?  'Not Specify' :  sprintf('%02d', $vac );
+function vacancyFormat($vac = 0)
+{
+    return (!$vac) ?  'Not Specify' :  sprintf('%02d', $vac);
 }
 
-function isSpecify( $string = ''){
+function isSpecify($string = '')
+{
     return (!$string) ?  'Not Specify' :  $string;
 }
 
-function jobG8AppLink( $array ){
+function jobG8AppLink($array)
+{
     //    $data = json_decode( $json, true );
-    if(isset($array['ApplicationURL'])){
+    if (isset($array['ApplicationURL'])) {
         return $array['ApplicationURL'];
     }
 }
 
 //Distances dropdown list
-function getDistances($selected = 10){
-    
+function getDistances($selected = 10)
+{
+
     $distances = [
         '3' => '3 miles',
         '5' => '5 miles',
@@ -949,12 +958,13 @@ function getDistances($selected = 10){
     }
     return $row;
 }
-function getPhotoDefault($photo, $cls = 'img-responsive', $w=280,$h=260, $zc=1) {
+function getPhotoDefault($photo, $cls = 'img-responsive', $w = 280, $h = 260, $zc = 1)
+{
     $filename = dirname(BASEPATH) . "/{$photo}";
     if (!$photo or !file_exists($filename)) {
         $photo = 'uploads/no-photo.jpg';
     }
-    $img_url    = site_url( $photo );
+    $img_url    = site_url($photo);
     $resize     = "w={$w}px&h={$h}px&zc={$zc}";
     $site_url   = site_url("timthumb.php?src={$img_url}&{$resize}");
     return  "<img src=\"{$site_url}\" alt=\"Photo\" class=\"$cls\" />";

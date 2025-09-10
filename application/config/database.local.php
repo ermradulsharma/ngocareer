@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $active_group = 'default';
 $query_builder = TRUE;
@@ -13,10 +13,10 @@ $db['default'] = array(
     // 'password' => '1234',
     // 'database' => 'ngocareer',
 
-   'hostname' => 'localhost',
-   'username' => 'root',
-   'password' => '',
-   'database' => 'ngocareer',
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => 'P@$$w0rd',
+    'database' => 'ngocareer_db',
 
     'dbdriver' => 'mysqli',
     'dbprefix' => '',

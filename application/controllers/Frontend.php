@@ -118,7 +118,7 @@ class Frontend extends Frontend_controller
         } else {
             $cat_id = ($this->input->get('cat')) ? intval($this->input->get('cat')) : 0;
         }
-        
+
         $keyword = ($this->input->get('keyword'));
         $org = ($this->input->get('org')) ? (int)$this->input->get('org') : 0;
         $salary_range = ($this->input->get('salary_range')) ? $this->input->get('salary_range') : null;
@@ -137,14 +137,14 @@ class Frontend extends Frontend_controller
 
         $CountryName = urldecode($cat_slug);
         preg_replace('/[^A-Za-z0-9\-]/', ' ', $CountryName);
-        $CountryName = str_replace('_', ' ', $CountryName); 
-        
-        
+        $CountryName = str_replace('_', ' ', $CountryName);
+
+
 
         $total = $this->Frontend_model->total_job($cat_id, $org, $type_id, $country_id, $keyword, $lat, $lng, $salary_range, $posted, $deadline, $sort_by, $location);
 
         $jobs = $this->Frontend_model->get_job($this->limit, $start, $cat_id, $org, $type_id, $country_id, $keyword, $lat, $lng, $salary_range, $posted, $deadline, $sort_by, $location);
-     
+
         $data = array(
             'jobs' => $jobs,
             'Country' => $CountryName,
@@ -168,7 +168,7 @@ class Frontend extends Frontend_controller
             'sql' => $this->db->last_query(),
             'candidate_id' => $this->candidate_id,
         );
-      
+
         $this->viewFrontContent('frontend/template/job-search', $data);
     }
 
@@ -198,10 +198,10 @@ class Frontend extends Frontend_controller
                 'candidate_id' => $this->candidate_id,
             );
 
-//            if(!$job->user_id){
-//                $data['job']->company_name = $data['jobg8']['AdvertiserName'];
-//                $data['job']->company_logo = 'uploads/no-photo.jpg';
-//            }                        
+            //            if(!$job->user_id){
+            //                $data['job']->company_name = $data['jobg8']['AdvertiserName'];
+            //                $data['job']->company_logo = 'uploads/no-photo.jpg';
+            //            }                        
 
             $this->viewFrontContent('frontend/template/job-details', $data);
         } else {
@@ -244,7 +244,7 @@ class Frontend extends Frontend_controller
             'meta_title' => 'Search Thousands of NGO Jobs Worldwide.',
             'meta_description' => 'Take the next  step in your career progression by searching and applying to thousands  of NGO Jobs at  NGOcareer.com.',
             'meta_keywords' => 'NGO career,  NGO vacancies, NGO Jobs, Charity Jobs, Not for profit jobs, Voluntary sector Jobs.',
-//            'sql' => $this->db->last_query()
+            //            'sql' => $this->db->last_query()
         );
         $this->viewFrontContent('frontend/events', $data);
     }
@@ -258,20 +258,20 @@ class Frontend extends Frontend_controller
             $e->meta_description = 'Take the next  step in your career progression by searching and applying to thousands  of NGO Jobs at  NGOcareer.com.';
             $e->meta_keywords = 'NGO career,  NGO vacancies, NGO Jobs, Charity Jobs, Not for profit jobs, Voluntary sector Jobs.';
             $this->hitCount($id, 'events');
-//            $data = array(
-//                'title'     => $e->title,
-//                'image'     => $e->image,
-//                'location'  => $e->location,
-//                'category'  => $e->category_name,
-//                'date'      => GDF($e->start_date) .' '. GDF($e->end_date),
-//                'summary' => $e->summary,
-//                'organizer_name' => $e->organizer_name,
-//                'short_des' => $e->description,
-//                'full_des'  => $e->full_description,
-//                'lat'  => $e->lat,
-//                'lng'  => $e->lng,
-//                'event_link'  => $e->event_link,
-//            );
+            //            $data = array(
+            //                'title'     => $e->title,
+            //                'image'     => $e->image,
+            //                'location'  => $e->location,
+            //                'category'  => $e->category_name,
+            //                'date'      => GDF($e->start_date) .' '. GDF($e->end_date),
+            //                'summary' => $e->summary,
+            //                'organizer_name' => $e->organizer_name,
+            //                'short_des' => $e->description,
+            //                'full_des'  => $e->full_description,
+            //                'lat'  => $e->lat,
+            //                'lng'  => $e->lng,
+            //                'event_link'  => $e->event_link,
+            //            );
 
             $this->viewFrontContent('frontend/event_details', $e);
         } else {
@@ -394,15 +394,15 @@ class Frontend extends Frontend_controller
     public function advertisers()
     {
 
-         $q = ($this->input->get('q'));
+        $q = ($this->input->get('q'));
         $page = intval($this->input->get('page'));
         $target = build_pagination_url('advertisers', 'page', true);
-        
+
         $start = startPointOfPagination($this->limit, $page);
 
         $total = $this->Frontend_model->total_advertiser($q);
         $advertisers = $this->Frontend_model->get_advertiser($this->limit, $start, $q);
-  
+
 
         $data = array(
             'advertisers' => $advertisers,
@@ -413,16 +413,16 @@ class Frontend extends Frontend_controller
             'meta_description' => 'Take the next  step in your career progression by searching and applying to thousands  of NGO Jobs at  NGOcareer.com.',
             'meta_keywords' => 'NGO career,  NGO vacancies, NGO Jobs, Charity Jobs, Not for profit jobs, Voluntary sector Jobs.',
         );
-        
+
         $this->viewFrontContent('frontend/advertisers', $data);
     }
 
     public function advertiser_details($string)
     {
         $AdvertiserName = urldecode($string);
-       preg_replace('/[^A-Za-z0-9\-]/', ' ', $AdvertiserName);
- 
-       $AdvertiserName = str_replace('_', ' ', $AdvertiserName);  
+        preg_replace('/[^A-Za-z0-9\-]/', ' ', $AdvertiserName);
+
+        $AdvertiserName = str_replace('_', ' ', $AdvertiserName);
 
         $page = intval($this->input->get('page'));
         $target = build_pagination_url("company/profile/{$string}", 'page', true);
@@ -441,7 +441,6 @@ class Frontend extends Frontend_controller
             'meta_keywords' => 'NGO career,  NGO vacancies, NGO Jobs, Charity Jobs, Not for profit jobs, Voluntary sector Jobs.',
         );
         $this->viewFrontContent('frontend/template/advertiser-details', $data);
-
     }
 
     public function revision()
@@ -611,7 +610,7 @@ class Frontend extends Frontend_controller
         $this->form_validation->set_rules('email_frequency', 'Email frequency', 'required');
 
         $this->form_validation->set_error_delimiters('', '');
-         
+
         if ($this->form_validation->run() == FALSE) {
             $error = validation_errors();
             echo ajaxRespond('Fail', $error);
@@ -619,26 +618,24 @@ class Frontend extends Frontend_controller
         }
 
         $saveData = array(
-                    
-                    'first_name' => $this->input->post('first_name'),
-                    'last_name' => $this->input->post('last_name'),
-                    'email' => $this->input->post('email'),
-                    'keywords' => $this->input->post('keywords'),
-                    'email_frequency' => $this->input->post('email_frequency'),
-                    'job_category_ids' => !empty($post['job_category_ids']) ? implode(',', $post['job_category_ids']) : 0,
-                    'status' => 'On',
-                    'created_at' => date("Y-m-d H:i:s")
-                );
+
+            'first_name' => $this->input->post('first_name'),
+            'last_name' => $this->input->post('last_name'),
+            'email' => $this->input->post('email'),
+            'keywords' => $this->input->post('keywords'),
+            'email_frequency' => $this->input->post('email_frequency'),
+            'job_category_ids' => !empty($post['job_category_ids']) ? implode(',', $post['job_category_ids']) : 0,
+            'status' => 'On',
+            'created_at' => date("Y-m-d H:i:s")
+        );
 
         $this->db->insert('job_alert_subscribe', $saveData);
-        
-         $this->session->set_flashdata('msgs', 'Job information setup has been subscribed');
+
+        $this->session->set_flashdata('msgs', 'Job information setup has been subscribed');
 
         redirect('/home');
-      
-        echo ajaxRespond('OK', 'Job information setup has been subscribed!');
 
-        
+        echo ajaxRespond('OK', 'Job information setup has been subscribed!');
     }
     public function blog_archive_ul()
     {
@@ -650,13 +647,13 @@ class Frontend extends Frontend_controller
             $name = date("M - Y", strtotime(date($year . '-01-01') . " -$i months"));
             $value = date("Y-m", strtotime(date($year . '-01-01') . " -$i months"));
             $count = countArchiveComment($value);
-            if($count){
+            if ($count) {
                 $html .= '<li><a href="ngo-career-advice?archive=' . $value . '">' . $name . $count . '</a></li>';
                 $no_data = 0;
             }
         }
         $html .= '</ul>';
-        if($no_data == 1){
+        if ($no_data == 1) {
             $html = '<p class="ajax_notice">No data found!</p>';
         }
         echo ajaxRespond('OK', $html);

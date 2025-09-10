@@ -1,71 +1,59 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
+
 date_default_timezone_set('Europe/London');
-//error_reporting(0);
-$config['base_url']       = 'http://localhost/ngocareer//';
-//$config['base_url']       = 'http://192.168.1.104/ngocareer/';
 
-$config['index_page']           = '';
-$config['uri_protocol']         = 'REQUEST_URI';
-$config['url_suffix']           = '';
-$config['language']             = 'english';
-$config['charset']              = 'UTF-8';
-$config['enable_hooks']         = TRUE;
-$config['subclass_prefix']      = 'MY_';
-$config['composer_autoload']    = 'vendor/autoload.php';
+$config['base_url'] = 'https://ngocareer.com/'; // use HTTPS and no extra slash
 
-$config['stripe_key']           = 'pk_test_tRoHr74FuGuljYM10pd7l40X';//YOUR_PUBLISHABLE_KEY
-$config['stripe_secret']        = 'sk_test_Gb55roaIktevZHx3PGUvyNcy';//YOUR_SECRET_KEY
-$config['stripe_currency']      = 'GBP'; // USD, GBP, 
+$config['index_page']   = '';
+$config['uri_protocol'] = 'REQUEST_URI';
+$config['charset']      = 'UTF-8';
 
-$config['permitted_uri_chars']      = 'a-z 0-9~%.:_\-=';
-//$config['permitted_uri_chars']    = '';
+$config['enable_hooks']      = TRUE;
+$config['subclass_prefix']   = 'MY_';
+$config['composer_autoload'] = 'vendor/autoload.php';
 
-$config['allow_get_array']      = TRUE;
-$config['enable_query_strings'] = FALSE;
-$config['controller_trigger']   = 'c';
-$config['function_trigger']     = 'm';
-$config['directory_trigger']    = 'd';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-=';
 
-$config['log_threshold']        = 0; // 1,2,3,4
-$config['log_path']             = '';
-$config['log_file_extension']   = '';
-$config['log_file_permissions'] = 0644;
-$config['log_date_format']      = 'Y-m-d H:i:s';
-$config['error_views_path']     = '';
-$config['cache_path']           = '';
-$config['cache_query_string']   = FALSE;
-$config['encryption_key']       = '';
+// Stripe (live keys should go here in prod, not test keys)
+$config['stripe_key']      = 'YOUR_LIVE_PUBLISHABLE_KEY';
+$config['stripe_secret']   = 'YOUR_LIVE_SECRET_KEY';
+$config['stripe_currency'] = 'GBP';
 
-$config['sess_driver']              = 'files';
-$config['sess_cookie_name']         = 'ci_session_';
-$config['sess_expiration']          = 7200;
-$config['sess_save_path']           = null;
-$config['sess_match_ip']            = FALSE;
-$config['sess_time_to_update']      = 7200; //60*60*24*7;
-$config['sess_regenerate_destroy']  = FALSE;
+// Logging
+$config['log_threshold'] = 1; // log errors only
+$config['log_date_format'] = 'Y-m-d H:i:s';
 
-$config['cookie_prefix']    = 'ngo_';
-$config['cookie_domain']    = 'ngocareer.com'; // 'localhost';
-$config['cookie_path']      = '/';
-$config['cookie_secure']    = true;
-$config['cookie_httponly']  = true;
+// Encryption
+$config['encryption_key'] = 'PUT_A_RANDOM_SECRET_KEY_HERE'; // must set in prod!
 
-$config['standardize_newlines'] = FALSE;
-$config['global_xss_filtering'] = false;
+// Sessions
+$config['sess_driver']             = 'files';
+$config['sess_cookie_name']        = 'ci_session_';
+$config['sess_expiration']         = 7200;
+$config['sess_save_path']          = '/var/www/ngocareer/writable/sessions'; // secure writable path
+$config['sess_match_ip']           = FALSE;
+$config['sess_time_to_update']     = 7200;
+$config['sess_regenerate_destroy'] = FALSE;
 
-$config['csrf_protection']      = false;
-$config['csrf_token_name']      = '_token';
-$config['csrf_cookie_name']     = 'csrf_cookie_name';
-$config['csrf_expire']          = 60 * 60; // 1 hour
-$config['csrf_regenerate']      = true;
-$config['csrf_exclude_uris']    = array();
+// Cookies
+$config['cookie_prefix']   = 'ngo_';
+$config['cookie_domain']   = '.ngocareer.com'; // works for root + subdomains
+$config['cookie_path']     = '/';
+$config['cookie_secure']   = true;  // requires HTTPS
+$config['cookie_httponly'] = true;  // prevents JavaScript access
 
-$config['compress_output']      = FALSE;
-$config['time_reference']       = 'local';
-$config['rewrite_short_tags']   = FALSE;
-$config['proxy_ips']            = '';
+// CSRF (must enable in production)
+$config['csrf_protection']   = true;
+$config['csrf_token_name']   = '_token';
+$config['csrf_cookie_name']  = 'csrf_cookie_name';
+$config['csrf_expire']       = 3600;
+$config['csrf_regenerate']   = true;
+$config['csrf_exclude_uris'] = array();
+
+$config['time_reference'] = 'local';
+
 $config['modules_locations'] = array(
     APPPATH . 'modules/' => '../modules/',
 );

@@ -8,23 +8,23 @@ $route['404_override']          = 'frontend';
 $route['404']                   = 'frontend/not_found_page';
 $route['cron_keywords']         = 'cron_keywords';
 $route['revision/(:num)/(:num)'] = 'frontend/revision/$2/$1';
- 
+
 
 $route['admin/auth/facebook/callback']  = 'auth/facebook_callback';
-$route['admin/auth/google/callback']  	= 'auth/google_callback';
+$route['admin/auth/google/callback']      = 'auth/google_callback';
 
 //$route['logout']                        = 'auth_student/logout';
 //$route['auth_candidate/forgot_pass']    = 'my_account/forgot_pass';
 //$route['login']                         = 'my_account/login_form';
 
-$route['login']                 	= 'auth_candidate/login_form/login';
+$route['login']                     = 'auth_candidate/login_form/login';
 $route['create-candidate-profile']  = 'auth_candidate/login_form/create-candidate-profile';
 $route['auth_candidate/forgot_pass']    = 'auth_candidate/forgot_pass';
 $route['reset_password']                = 'auth_candidate/reset_password';
 //Facebook Callback URL
-$route['auth/facebook/callback']  	= 'auth_candidate/facebook_callback';
-$route['auth/google/callback']  	= 'auth_candidate/google_callback';
-$route['logout']                	= 'auth_candidate/logout';
+$route['auth/facebook/callback']      = 'auth_candidate/facebook_callback';
+$route['auth/google/callback']      = 'auth_candidate/google_callback';
+$route['logout']                    = 'auth_candidate/logout';
 
 $route['myaccount']                 = 'my_account/alert';
 $route['myaccount/profile']         = 'my_account/profile';

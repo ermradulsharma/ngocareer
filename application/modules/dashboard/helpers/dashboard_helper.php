@@ -1,15 +1,17 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 function getRecentJobPosts($limit = 10, $user_id = 0)
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $html = '';
 
     $ci->db->select('*');
     $ci->db->limit($limit);
-    if ($user_id) { $ci->db->where('user_id', $user_id); }
+    if ($user_id) {
+        $ci->db->where('user_id', $user_id);
+    }
     $ci->db->where('status', 'Pending');
     $ci->db->order_by('id', 'DESC');
     $jobs = $ci->db->get('jobs')->result();
@@ -29,7 +31,7 @@ function getRecentJobPosts($limit = 10, $user_id = 0)
         $html .= "<td class='text-center'>{$vacancy}</td>";
         $html .= "<td>{$job->status}</td>";
         $html .= "<td>" . timePassed($job->created_at) . "</td>";
-        $html .= "<td><a href='".site_url(Backend_URL.'job/update/'.$job->id)."' class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</a></td>";
+        $html .= "<td><a href='" . site_url(Backend_URL . 'job/update/' . $job->id) . "' class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</a></td>";
         $html .= '</tr>';
     }
     return $html;
@@ -38,12 +40,14 @@ function getRecentJobPosts($limit = 10, $user_id = 0)
 
 function getRecentEventPosts($limit = 10, $user_id = 0)
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $html = '';
 
     $ci->db->select('*');
     $ci->db->limit($limit);
-    if ($user_id) { $ci->db->where('user_id', $user_id); }
+    if ($user_id) {
+        $ci->db->where('user_id', $user_id);
+    }
     $ci->db->where('status', 'Pending');
     $ci->db->order_by('id', 'DESC');
     $events = $ci->db->get('events')->result();
@@ -57,11 +61,11 @@ function getRecentEventPosts($limit = 10, $user_id = 0)
 
     foreach ($events as $event) {
         $html .= '<tr>';
-        $html .= '<td class="text-center">'.$event->id.'</td>';
-        $html .= '<td>'.$event->title.'</td>';
+        $html .= '<td class="text-center">' . $event->id . '</td>';
+        $html .= '<td>' . $event->title . '</td>';
         $html .= "<td>{$event->status}</td>";
         $html .= "<td>" . timePassed($event->created_at) . "</td>";
-        $html .= "<td><a href='".site_url(Backend_URL.'event/update/'.$event->id)."' class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</a></td>";
+        $html .= "<td><a href='" . site_url(Backend_URL . 'event/update/' . $event->id) . "' class='btn btn-warning btn-xs'><i class='fa fa-edit'></i> Edit</a></td>";
         $html .= '</tr>';
     }
     return $html;
@@ -69,12 +73,14 @@ function getRecentEventPosts($limit = 10, $user_id = 0)
 
 function getRecentJobApplication($limit = 10, $user_id = 0)
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $html = '';
 
     $ci->db->select('a.*, j.title as job_title, cv.candidate_id');
     $ci->db->select('c.full_name as candidate_name');
-    if ($user_id) { $ci->db->where('j.user_id', $user_id); }
+    if ($user_id) {
+        $ci->db->where('j.user_id', $user_id);
+    }
     $ci->db->from('job_applications as a');
     $ci->db->join('jobs as j', 'a.job_id = j.id', 'LEFT');
     $ci->db->join('candidate_cv as cv', 'a.candidate_cv_id = cv.id', 'LEFT');
@@ -104,7 +110,7 @@ function getRecentJobApplication($limit = 10, $user_id = 0)
 
 function getRecentPaymentLog($limit = 10)
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $html = '';
 
     $ci->db->from('transactions');
@@ -133,7 +139,7 @@ function getRecentPaymentLog($limit = 10)
 
 function getUpcomingExams($limit = 10)
 {
-    $ci =& get_instance();
+    $ci = &get_instance();
     $ci->db->select('e.id,e.name,e.datetime,cn.name as centre');
     $ci->db->select('c.name as category_name');
     $ci->db->from('exams as e');
@@ -145,7 +151,7 @@ function getUpcomingExams($limit = 10)
     $ci->db->limit($limit);
     $exams = $ci->db->get()->result();
 
-//    dd( $exams );
+    //    dd( $exams );
 
 
     $html = '';
