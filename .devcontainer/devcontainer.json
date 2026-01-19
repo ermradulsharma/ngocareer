@@ -1,0 +1,22 @@
+{
+    "name": "NGO Career Dev Container",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "app",
+    "workspaceFolder": "/var/www/html",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "xdebug.php-debug",
+                "eamodio.gitlens",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "php.validate.executablePath": "/usr/local/bin/php"
+            }
+        }
+    },
+    "remoteUser": "root"
+}

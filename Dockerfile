@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     && docker-php-ext-install mysqli pdo pdo_mysql zip gd intl mbstring
 
-# Install Composer (Skipped: composer.json missing in root)
-# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -28,6 +28,10 @@ WORKDIR /var/www/html
 # Copy application source
 # We will mount volume in docker-compose for dev, but this is good for prod builds
 COPY . /var/www/html
+
+# Install XDebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 # Dump autoload
 # RUN composer dump-autoload --optimize
