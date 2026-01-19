@@ -45,7 +45,7 @@ $config['cookie_secure']   = filter_var(getenv('COOKIE_SECURE'), FILTER_VALIDATE
 $config['cookie_httponly'] = true;
 
 // CSRF
-$config['csrf_protection']   = filter_var(getenv('CSRF_PROTECTION') ?: TRUE, FILTER_VALIDATE_BOOLEAN);
+$config['csrf_protection']   = FALSE;
 $config['csrf_token_name']   = '_token';
 $config['csrf_cookie_name']  = 'csrf_cookie_name';
 $config['csrf_expire']       = 3600;
