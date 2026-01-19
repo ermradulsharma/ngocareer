@@ -187,7 +187,10 @@ class Frontend_controller extends MX_Controller
 
     public function viewFrontContent($view, $data = [])
     {
-        $GLOBALS    = $this->getAllSetting();
+        // $GLOBALS = $this->getAllSetting(); // PHP 8.1+ Fatal Error Fix
+        foreach ($this->getAllSetting() as $key => $value) {
+            $GLOBALS[$key] = $value;
+        }
 
         //        dd( $GLOBALS );
         $this->load->view('frontend/header', $data);
