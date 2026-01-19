@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ngocareer_app
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - CI_ENV=${CI_ENV}
+      - DB_HOSTNAME=${DB_HOSTNAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - BASE_URL=${BASE_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_MAP_KEY=${GOOGLE_MAP_KEY}
+      - GOOGLE_PLACE_KEY=${GOOGLE_PLACE_KEY}
+
+    depends_on:
+      - db
+    # networks:
+    #   - ngocareer-network
+
+  db:
+    image: mariadb:10.6
+    container_name: ngocareer_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./ngocareer-3739d81d.sql:/docker-entrypoint-initdb.d/init.sql
+    # networks:
+    #   - ngocareer-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ngocareer_pma
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8082:80"
+    depends_on:
+      - db
+    # networks:
+    #   - ngocareer-network
+
+# networks:
+#   ngocareer-network:
+#     driver: bridge
+
+volumes:
+  db_data:

@@ -1,1 +1,53 @@
+# Security
+.env
+
+# CodeIgniter
+application/config/config.local.php
+application/config/config.server.php
+application/config/database.local.php
+application/config/database.server.php
+application/config/google_1.php
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+application/session/*
+!application/session/index.html
+
+# Composer
+vendor/
+
+# Uploads / User Content
+uploads/
+images/
+# Keep index.html in uploads if it exists to prevent listing, but ignore other contents
+!uploads/index.html
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+nbproject/
+
+# Docker
+docker-compose.override.yml
+
+# Archives & Backups
 *.zip
+*.tar
+*.gz
+*.rar
+*.bak
+*.old
+*.tmp
+# Local DB dumps
+*.sql
+
+# OS
+.DS_Store
+Thumbs.db

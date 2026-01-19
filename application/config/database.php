@@ -7,12 +7,24 @@ $query_builder = TRUE;
 // ---------------------
 // Default MySQL connection
 // ---------------------
+// -------------------------------------------------------------------
+// Dynamic Database Connection
+// -------------------------------------------------------------------
+// Load database.local.php if in development or localhost
+// Load database.server.php otherwise
+
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+// -------------------------------------------------------------------
+// Database Connection
+// -------------------------------------------------------------------
+
 $db['default'] = array(
     'dsn'       => '',
-    'hostname'  => 'localhost',      // Use 'localhost' for local development
-    'username'  => 'root',           // Your local MySQL username
-    'password'  => 'P@$$w0rd',               // Your local MySQL password
-    'database'  => 'ngocareer_db',      // Local database name
+    'hostname'  => getenv('DB_HOSTNAME') ?: 'localhost',
+    'username'  => getenv('DB_USERNAME') ?: 'root',
+    'password'  => getenv('DB_PASSWORD') ?: 'P@$$w0rd',
+    'database'  => getenv('DB_DATABASE') ?: 'ngocareer_db',
     'dbdriver'  => 'mysqli',
     'dbprefix'  => '',
     'pconnect'  => FALSE,

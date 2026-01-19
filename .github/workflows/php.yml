@@ -1,0 +1,24 @@
+name: PHP CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2' # Updated for PHP 8.2
+        extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
+
+    - name: Check PHP Code Syntax
+      run: find . -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n1 php -l

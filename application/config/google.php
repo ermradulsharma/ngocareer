@@ -9,8 +9,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | -------------------------------------------------------------------
 */
 
-$config['client_id']        = '242205860397-967o9jfhalit8a6palb687gt9q1uo75c.apps.googleusercontent.com';
-$config['client_secret']    = 'R_FRdDf6BqAcnuVcEPNVgLHb';
+$config['client_id']        = getenv('GOOGLE_CLIENT_ID') ?: '242205860397-967o9jfhalit8a6palb687gt9q1uo75c.apps.googleusercontent.com';
+$config['client_secret']    = getenv('GOOGLE_CLIENT_SECRET') ?: 'R_FRdDf6BqAcnuVcEPNVgLHb';
 
 /*
 | Redirect URIs must exactly match those configured in Google Cloud Console.

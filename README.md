@@ -1,70 +1,55 @@
-###################
-What is CodeIgniter
-###################
+# NGO Career
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+**NGO Career** is a web application built using the [CodeIgniter 3](https://codeigniter.com/) PHP framework. It serves as a platform for [Add specific purpose if known, e.g., connecting NGOs with job seekers].
 
-*******************
-Release Information
-*******************
+## Requirements
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
+- PHP 5.6 or newer (PHP 7.4 recommended)
+- Composer (for dependency management)
+- MySQL or MariaDB
 
-**************************
-Changelog and New Features
-**************************
+## Installation
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+1.  **Clone the repository:**
 
-*******************
-Server Requirements
-*******************
+    ```bash
+    git clone https://github.com/ermradulsharma/ngocareer.git
+    cd ngocareer
+    ```
 
-PHP version 5.6 or newer is recommended.
+2.  **Install Dependencies:**
+    This project uses Composer. Ensure you have the `vendor` directory. If `composer.json` is present, run:
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+    ```bash
+    composer install
+    ```
 
-************
-Installation
-************
+3.  **Database Setup:**
+    - Create a new MySQL database.
+    - Import the project's database schema (usually found in `database.sql` or similar, check `uploads` or backup zips if not in root).
+    - Configure database connection settings in `application/config/database.php`.
 
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+4.  **Configuration:**
+    - Open `application/config/config.php` and set your base URL:
+      ```php
+      $config['base_url'] = 'http://localhost/ngocareer/';
+      ```
+    - If necessary, configure `application/config/config.local.php` for local environment overrides.
 
-*******
-License
-*******
+5.  **Run the Application:**
+    - You can use a local server like XAMPP/WAMP or the built-in PHP server:
+      ```bash
+      php -S localhost:8000
+      ```
+    - Visit `http://localhost:8000` in your browser.
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+## Contributing
 
-*********
-Resources
-*********
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to submit pull requests, report issues, and request features.
 
-- `User Guide <https://codeigniter.com/docs>`_
-- `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
-- `Community Forums <http://forum.codeigniter.com/>`_
-- `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
-- `Community IRC <https://webchat.freenode.net/?channels=%23codeigniter>`_
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+## License
 
-***************
-Acknowledgement
-***************
-
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+This project is licensed under the [MIT License](LICENSE).

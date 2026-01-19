@@ -2,7 +2,7 @@
     RewriteEngine On
 
     # If project is in http://localhost/ngocareer/
-    RewriteBase /ngocareer/
+    RewriteBase /
 
     # Pass authorization header
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -15,5 +15,5 @@
     RewriteCond %{REQUEST_FILENAME} !-d
 
     # Redirect everything to index.php
-    RewriteRule . /ngocareer/index.php [L]
+    RewriteRule . /index.php [L]
 </IfModule>

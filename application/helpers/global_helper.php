@@ -241,13 +241,14 @@ function password_encription($string = '')
     return password_hash($string, PASSWORD_BCRYPT);
 }
 
-function initGoogleMap($lat = 0, $lng = 0, $divID = 'map-container', $title = 'Not Defiend')
+function initGoogleMap($lat = 0, $lng = 0, $divID = 'map-container', $title = 'Not Defined')
 {
     $script = '';
+    $key = getenv('GOOGLE_MAP_KEY');
     if ($lat && $lng) {
         $script .= '<div style="height: 280px;" id="' . $divID . '"></div>' . "\r\n";
         $script .= <<<EOT
-            <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyCSuu_Ag9Z2CEMxzzXdCcPNIUtPm0-GIXs"></script> 
+            <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key={$key}"></script> 
             <script type="text/javascript">
             function init_map() {
                 var var_location = new google.maps.LatLng($lat, $lng);
@@ -278,11 +279,12 @@ EOT;
     return $script;
 }
 
-function initGoogleMapMulti($locations, $divID = 'map', $title = 'Not Defiend')
+function initGoogleMapMulti($locations, $divID = 'map', $title = 'Not Defined')
 {
     $script = '';
     $count = 0;
     $js_location = '';
+    $key = getenv('GOOGLE_PLACE_KEY');
 
 
     if ($locations) {
@@ -295,7 +297,7 @@ function initGoogleMapMulti($locations, $divID = 'map', $title = 'Not Defiend')
 
         $script .= '<div style="height: 280px;" id="' . $divID . '"></div>' . "\r\n";
         $script .= <<<EOT
-            <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBOKy0BTRCMXke5lOw6YhaPmVy4L8d1xq0"></script> 
+            <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key={$key}"></script> 
             <script type="text/javascript">            
                 var locations = [$js_location];
                 

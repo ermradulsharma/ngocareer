@@ -16,49 +16,43 @@ $config['composer_autoload'] = 'vendor/autoload.php';
 
 // Security
 $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-=+&,';
-$config['encryption_key']      = '';
+// Environment-based Configuration
+$is_dev = ENVIRONMENT === 'development';
 
-// Logging
-$config['log_threshold']        = 0;
-$config['log_file_permissions'] = 0644;
-$config['log_date_format']      = 'Y-m-d H:i:s';
+// Base URL
+$config['base_url'] = getenv('BASE_URL') ?: 'http://localhost:8000/';
+
+// Encryption Key (Must be set in .env for production)
+$config['encryption_key'] = getenv('ENCRYPTION_KEY') ?: '7f804b86a87752762263d91689230538';
+
+// Logging (Log everything in dev, errors only in prod)
+$config['log_threshold'] = $is_dev ? 1 : 1;
 
 // Sessions
 $config['sess_driver']             = 'files';
 $config['sess_cookie_name']        = 'ci_session_';
 $config['sess_expiration']         = 7200;
-$config['sess_save_path']          = NULL;
+$config['sess_save_path']          = getenv('SESS_SAVE_PATH') ?: sys_get_temp_dir();
 $config['sess_match_ip']           = FALSE;
 $config['sess_time_to_update']     = 7200;
 $config['sess_regenerate_destroy'] = FALSE;
 
-// Cookies (override in local/server configs)
+// Cookies
 $config['cookie_prefix']   = 'ngo_';
+$config['cookie_domain']   = getenv('COOKIE_DOMAIN') ?: '';
 $config['cookie_path']     = '/';
-$config['cookie_secure']   = false; // overridden later
+$config['cookie_secure']   = filter_var(getenv('COOKIE_SECURE'), FILTER_VALIDATE_BOOLEAN);
 $config['cookie_httponly'] = true;
 
 // CSRF
-$config['csrf_protection']   = false;
+$config['csrf_protection']   = filter_var(getenv('CSRF_PROTECTION') ?: TRUE, FILTER_VALIDATE_BOOLEAN);
 $config['csrf_token_name']   = '_token';
 $config['csrf_cookie_name']  = 'csrf_cookie_name';
 $config['csrf_expire']       = 3600;
 $config['csrf_regenerate']   = true;
 $config['csrf_exclude_uris'] = array();
 
-$config['compress_output']    = FALSE;
-$config['time_reference']     = 'local';
-$config['rewrite_short_tags'] = FALSE;
-
-$config['modules_locations'] = array(
-    APPPATH . 'modules/' => '../modules/',
-);
-
-// Load environment overrides
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-
-if (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false) {
-    include __DIR__ . '/config.local.php';
-} else {
-    include __DIR__ . '/config.server.php';
-}
+// Stripe
+$config['stripe_key']      = getenv('STRIPE_KEY') ?: 'pk_test_tRoHr74FuGuljYM10pd7l40X';
+$config['stripe_secret']   = getenv('STRIPE_SECRET') ?: 'sk_test_Gb55roaIktevZHx3PGUvyNcy';
+$config['stripe_currency'] = getenv('STRIPE_CURRENCY') ?: 'GBP';
